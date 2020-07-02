@@ -1,6 +1,8 @@
 package libraryon.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,43 +10,71 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import libraryon.model.Loan;
+import libraryon.model.User;
+
 /**
  * Servlet implementation class LibraryServlet
  */
-@WebServlet("/LibraryServlet")
+@WebServlet("*.do")
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
+	User user;
+	Loan loan;
+	
 	public LibraryServlet() {
 		super();
 	}
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	String page = "";
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
+		
+		page = "";
+		String path = request.getServletPath();
+		String comand = path.substring(1, path.lastIndexOf(".do"));
+		
+		switch (comand) {
+		case "create-loan":
+			break;
+
+		case "update-loan":
+			break;
+
+		case "delete-loan":
+			break;
+			
+		case "login":
+			break;
+		
+		case "create-user":
+			break;
+			
+		case "delete-user":
+			break;
+		
+		case "update-user":
+			break;
+			
+		}
 	}
-	
-	
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		processRequest(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		processRequest(request, response);
 	}
 
+	private void createLoan(HttpServletRequest request) {
+		loan = new Loan();
+	}
+	
 }
