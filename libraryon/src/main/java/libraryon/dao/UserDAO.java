@@ -1,29 +1,30 @@
 package libraryon.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import libraryon.form.LoginForm;
-import libraryon.util.DBUtil;
+import utilities.DBUtil;
+
+
 
 public class UserDAO {
 
-	public void Login(HttpSession session) {
-		LoginForm loginForm = new LoginForm();
-		String email = loginForm.getParameter("email");
-		String password = user.getPassword();
-		Connection con = DBUtil.getMySqlConnection();
-		Statement st = con.createStatement();
-		ResultSet rs;
-		rs = st.executeQuery(
-				"select * from USER where EMAIL='" + email + "' and PASSWORD='" + password + "'");
-		if (rs.next()) {
-			session.setAttribute("email", email);
-			response.sendRedirect("home.jsp");
-		} else {
-			out.println("Invalid password <a href='login.jsp'>try again</a>");
+	public void Login(LoginForm LoginForm) throws Exception{
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "SELECT * FROM user WHERE email = ? AND  password = ?";
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
 		}
 	}
-
 }
