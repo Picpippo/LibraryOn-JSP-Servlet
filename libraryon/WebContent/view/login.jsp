@@ -11,13 +11,13 @@ body {
 }
 </style>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 	<form action="LibraryServlet.do">
 
-		Please enter your email <input type="text" name="email" /><br>
-
-		Please enter your password <input type="text" name="password" /> <input
-			type="submit" value="submit">
+		Please enter email:<br> <input type="text" name="email" /> <br>
+		<br> Please enter password: <br> <input type="text"
+			name="password" /> <br>
+		<br> <input type="submit" value="submit">
 
 	</form>
 </body>
