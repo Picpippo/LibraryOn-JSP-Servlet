@@ -3,6 +3,7 @@ package libraryon.form;
 public class LoginForm {
 	private String email;
 	private String password;
+	private boolean valid;
 	
 	public String getEmail() {
 		return email;
@@ -24,4 +25,11 @@ public class LoginForm {
 	public LoginForm() {
 		super();
 	}
+	public boolean isValid() {
+		return valid;
+	}
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+	
 }
