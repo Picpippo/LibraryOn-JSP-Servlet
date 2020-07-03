@@ -17,7 +17,7 @@ body {
 		Please enter email:<br> <input type="text" name="email" /> <br>
 		<br> Please enter password: <br> <input type="password"
 			name="password" /> <br>
-		<br> <input type="submit" value="submit">
+		<br> <input type="submit" value="login">
 
 	</form>
 </body>

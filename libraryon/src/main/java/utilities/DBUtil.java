@@ -31,8 +31,10 @@ public class DBUtil {
 		String indirizzo = p.getProperty("indirizzo");
 		String porta = p.getProperty("porta");
 		String db = p.getProperty("db");
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
 
-		String url = "jdbc:" + jdbc + "://" + indirizzo + ":" + porta + "/" + db + "?serverTimezone=Europe/Rome";
+		String url = "jdbc:" + jdbc + "://" + indirizzo + ":" + porta + "/" + db + "?serverTimezone=UTC";
 
 		Connection conn = null;
 		try {

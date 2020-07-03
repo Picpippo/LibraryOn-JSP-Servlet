@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
+<%@page import="libraryon.model.Profile"%>
+<%@page import="libraryon.model.User"%>
+<%@page import="libraryon.model.Role"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +11,7 @@
 </head>
 
 <body>
-Funziona!!!!!
+
+
 </body>
 </html>

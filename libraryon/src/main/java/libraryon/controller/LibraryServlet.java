@@ -1,6 +1,7 @@
 package libraryon.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import libraryon.dao.BookDAO;
 import libraryon.dao.UserDAO;
+import libraryon.form.BookForm;
 import libraryon.form.LoginForm;
+import libraryon.model.Book;
 import libraryon.model.Loan;
 import libraryon.model.User;
 
@@ -21,6 +25,7 @@ public class LibraryServlet extends HttpServlet {
 	User user;
 	Loan loan;
 
+	
 	public LibraryServlet() {
 		super();
 	}
@@ -46,7 +51,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "login":
-			login(request, response);
+			login(request);
 			break;
 
 		case "create-user":
@@ -57,8 +62,20 @@ public class LibraryServlet extends HttpServlet {
 
 		case "update-user":
 			break;
-
+			
+		case "create-book":
+			createBook(request);
+			break;
+			
+		case "delete-book":
+			break;
+			
+		case "update-book":
+			break;
 		}
+		
+		request.getRequestDispatcher("view" + page + ".jsp").forward(request, response);
+
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -77,7 +94,7 @@ public class LibraryServlet extends HttpServlet {
 		loan = new Loan();
 	}
 
-	private void login(HttpServletRequest request, HttpServletResponse response) {
+	private void login(HttpServletRequest request) {
 		try {
 
 			LoginForm loginform = new LoginForm();
@@ -89,17 +106,38 @@ public class LibraryServlet extends HttpServlet {
 			if (loginform.isValid()) {
 
 				HttpSession session = request.getSession(true);
-				session.setAttribute("currentSessionUser", loginform);
-				response.sendRedirect("home.jsp"); // logged-in page
-			}
+				System.out.println("login riuscito");
+				page = "home";
 
-			else
-				System.out.println("Sbagliato!");
-				response.sendRedirect("login.jsp"); // error page
+			} else {
+				page = "login";
+				System.out.println("login sbagliato");
+
+			}
 		}
 
 		catch (Throwable theException) {
 			System.out.println(theException);
+		}
+	}
+	
+	private void createBook(HttpServletRequest request) {
+		
+		Book book = new Book();
+		BookForm bookForm = new BookForm();
+		
+		book.setAuthor(bookForm.getAuthor());
+		book.setTitle(bookForm.getTitle());
+		book.setQuantity(bookForm.getQuantity());
+		book.setPosition(bookForm.getPosition());
+		System.out.println("prova");
+		try {
+		  BookDAO.createBook(bookForm);
+		  page = "createBook";
+		  System.out.println("giusto");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("sbagliato");
 		}
 	}
 }

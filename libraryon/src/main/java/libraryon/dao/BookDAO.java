@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import libraryon.form.BookForm;
 import libraryon.model.Book;
 import utilities.DBUtil;
 
@@ -17,7 +18,7 @@ public class BookDAO {
 	 * @param book, the book that we want create
 	 * @throws Exception
 	 */
-	public static void createBook(Book book) throws Exception {
+	public static void createBook(BookForm bookForm) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
 		String sql = "INSERT INTO book (title, author, quantity, editor, position) VALUES (?,?,?,?,?)";
@@ -25,11 +26,11 @@ public class BookDAO {
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, book.getTitle());
-			ps.setString(2, book.getAuthor());
-			ps.setInt(3, book.getQuantity());
-			ps.setString(4, book.getEditor());
-			ps.setString(1, book.getPosition());
+			ps.setString(1, bookForm.getTitle());
+			ps.setString(2, bookForm.getAuthor());
+			ps.setInt(3, bookForm.getQuantity());
+			ps.setString(4, bookForm.getEditor());
+			ps.setString(1, bookForm.getPosition());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {

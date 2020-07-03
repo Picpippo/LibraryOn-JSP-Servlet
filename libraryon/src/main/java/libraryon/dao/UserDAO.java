@@ -44,6 +44,7 @@ public class UserDAO {
 			// if user exists set the isValid variable to true
 			else if (more) {
 				System.out.println("Welcome ");
+				loginform.setValid(true);
 			}
 		}
 
