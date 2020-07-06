@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import libraryon.form.BookForm;
 import libraryon.form.LoginForm;
+import libraryon.form.UserForm;
 import utilities.DBUtil;
 
 public class UserDAO {
@@ -82,5 +84,31 @@ public class UserDAO {
 
 		return loginform;
 
+	}
+	
+	/**
+	 * create a user and save it in the database
+	 * 
+	 * @param user, the user that we want create
+	 * @throws Exception
+	 */
+	public static void createUser(UserForm userForm) throws Exception {
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "INSERT INTO user (name, surname, address, email, password) VALUES (?,?,?,?,?)";
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, userForm.getName());
+			ps.setString(2, userForm.getSurname());
+			ps.setString(3, userForm.getAddress());
+			ps.setString(4, userForm.getEmail());
+			ps.setString(1, userForm.getPassword());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 }

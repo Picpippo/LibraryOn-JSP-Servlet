@@ -14,6 +14,7 @@ import libraryon.dao.BookDAO;
 import libraryon.dao.UserDAO;
 import libraryon.form.BookForm;
 import libraryon.form.LoginForm;
+import libraryon.form.UserForm;
 import libraryon.model.Book;
 import libraryon.model.Loan;
 import libraryon.model.User;
@@ -25,7 +26,6 @@ public class LibraryServlet extends HttpServlet {
 	User user;
 	Loan loan;
 
-	
 	public LibraryServlet() {
 		super();
 	}
@@ -62,18 +62,18 @@ public class LibraryServlet extends HttpServlet {
 
 		case "update-user":
 			break;
-			
+
 		case "create-book":
 			createBook(request);
 			break;
-			
+
 		case "delete-book":
 			break;
-			
+
 		case "update-book":
 			break;
 		}
-		
+
 		request.getRequestDispatcher("view" + page + ".jsp").forward(request, response);
 
 	}
@@ -120,21 +120,46 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(theException);
 		}
 	}
-	
+
 	private void createBook(HttpServletRequest request) {
-		
+
 		Book book = new Book();
 		BookForm bookForm = new BookForm();
-		
+
 		book.setAuthor(bookForm.getAuthor());
 		book.setTitle(bookForm.getTitle());
 		book.setQuantity(bookForm.getQuantity());
 		book.setPosition(bookForm.getPosition());
 		System.out.println("prova");
+		
 		try {
-		  BookDAO.createBook(bookForm);
-		  page = "createBook";
-		  System.out.println("giusto");
+			BookDAO.createBook(bookForm);
+			page = "createBook";
+			System.out.println("giusto");
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("sbagliato");
+		}
+	}
+
+	private void createUser(HttpServletRequest request) {
+
+		User user = new User();
+		UserForm userForm = new UserForm();
+
+		user.setName(userForm.getName());
+		user.setSurname(userForm.getSurname());
+		user.setAddress(userForm.getAddress());
+		user.setEmail(userForm.getEmail());
+		user.setEmail(userForm.getEmail());
+		System.out.println("prova");
+
+		try {
+			UserDAO.createUser(userForm);
+			page = "createBook";
+			System.out.println("giusto");
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println("sbagliato");
