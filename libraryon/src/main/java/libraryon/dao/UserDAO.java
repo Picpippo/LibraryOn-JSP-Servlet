@@ -25,11 +25,6 @@ public class UserDAO {
 
 		String searchQuery = "select * from user where email='" + email + "' AND password='" + password + "'";
 
-// "System.out.println" prints in the console; Normally used to trace the process
-		System.out.println("Your user name is " + email);
-		System.out.println("Your password is " + password);
-		System.out.println("Query: " + searchQuery);
-
 		try {
 			// connect to DB
 			conn = DBUtil.getConnection();
@@ -39,7 +34,6 @@ public class UserDAO {
 
 			// if user does not exist set the isValid variable to false
 			if (!more) {
-				System.out.println("Sorry, you are not a registered user! Please sign up first");
 				loginform.setValid(false);
 			}
 
@@ -54,7 +48,6 @@ public class UserDAO {
 			System.out.println("Log In failed: An Exception has occurred! " + ex);
 		}
 
-//some exception handling
 		finally {
 			if (rs != null) {
 				try {

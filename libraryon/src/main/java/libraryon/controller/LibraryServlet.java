@@ -1,7 +1,8 @@
 package libraryon.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,17 +65,31 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "create-book":
+			System.out.println("dentro case");
 			createBook(request);
 			break;
 
 		case "delete-book":
+			deleteBook(request);
 			break;
 
 		case "update-book":
 			break;
+
+		case "show-books":
+			showBooks(request);
+			break;
+			
+		case "change-page":
+			changePageCB(request);
+			break;
+			
+		case "refresh":
+			refresh(request);
+			break;
 		}
 
-		request.getRequestDispatcher("view" + page + ".jsp").forward(request, response);
+		request.getRequestDispatcher("view/" + page + ".jsp").forward(request, response);
 
 	}
 
@@ -122,21 +137,28 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	private void createBook(HttpServletRequest request) {
-
 		Book book = new Book();
-		BookForm bookForm = new BookForm();
-
-		book.setAuthor(bookForm.getAuthor());
-		book.setTitle(bookForm.getTitle());
-		book.setQuantity(bookForm.getQuantity());
-		book.setPosition(bookForm.getPosition());
-		System.out.println("prova");
 		
+		
+		BookForm bookForm = new BookForm();
+		bookForm.setTitle(request.getParameter("title"));
+		bookForm.setEditor(request.getParameter("editor"));
+		//bookForm.setQuantity(request.getParameter("quantity"));
+		bookForm.setPosition(request.getParameter("position"));
+		bookForm.setAuthor(request.getParameter("author"));
+		
+		/*book.setAuthor(bookForm.getAuthor());	
+		book.setTitle(bookForm.getTitle());
+		book.setEditor(bookForm.getEditor());
+		book.setQuantity(bookForm.getQuantity());
+		book.setPosition(bookForm.getPosition());*/
+		System.out.println("ho fatto nella servlet");
+
 		try {
 			BookDAO.createBook(bookForm);
-			page = "createBook";
+			page = "employee";
 			System.out.println("giusto");
-		
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println("sbagliato");
@@ -165,4 +187,41 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println("sbagliato");
 		}
 	}
+
+	private void deleteBook(HttpServletRequest request) {
+
+		long id_book = Long.parseLong(request.getParameter("id_book"));
+
+		try {
+			BookDAO.deleteBook(id_book);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private List<Book> showBooks(HttpServletRequest request) {
+		BookDAO bookDAO = new BookDAO();
+		List<Book> bookList = new ArrayList();
+		try {
+			bookList = bookDAO.bookList();
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		request.getSession().setAttribute("bookList", bookList);
+		
+		page = "employee";
+		return bookList;
+	}
+	
+	private void changePageCB(HttpServletRequest request) {
+		page = "createBook";
+		
+	}
+	
+	private void refresh(HttpServletRequest request) {
+		showBooks(request);
+		page = "employee";
+		}
 }

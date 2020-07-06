@@ -2,6 +2,7 @@ package libraryon.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +20,26 @@ public class BookDAO {
 	 * @throws Exception
 	 */
 	public static void createBook(BookForm bookForm) throws Exception {
-
+		System.out.println("sto nel creaDao");
 		Connection conn = DBUtil.getConnection();
 		String sql = "INSERT INTO book (title, author, quantity, editor, position) VALUES (?,?,?,?,?)";
 		PreparedStatement ps = null;
-
+		
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, bookForm.getTitle());
 			ps.setString(2, bookForm.getAuthor());
 			ps.setInt(3, bookForm.getQuantity());
 			ps.setString(4, bookForm.getEditor());
-			ps.setString(1, bookForm.getPosition());
-
+			ps.setString(5, bookForm.getPosition());
+			
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
+		
 	}
 
 	
@@ -92,18 +96,34 @@ public class BookDAO {
 	public static List<Book> bookList() throws Exception {
 		
 	    List<Book> bookList = new ArrayList();
-		
+		BookDAO bookDAO = new BookDAO();
+	    
 		Connection conn = DBUtil.getConnection();
 		String sql = "SELECT * FROM book";
 		PreparedStatement ps = null;
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.executeUpdate();
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Book book = new Book();
+				book.setId_book(rs.getLong("id_book"));
+				book.setAuthor(rs.getString("author"));
+				book.setEditor(rs.getString("editor"));
+				book.setPosition(rs.getString("position"));
+				book.setQuantity(rs.getInt("quantity"));
+				book.setTitle(rs.getString("title"));
+			
+				bookList.add(book);
+			}
+			System.out.println(ps);
+			ps.close();
+			conn.close();
 			
 		} catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
+	
 		return bookList;
 	}
 }
