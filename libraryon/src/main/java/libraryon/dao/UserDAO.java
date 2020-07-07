@@ -5,10 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import libraryon.form.BookForm;
 import libraryon.form.LoginForm;
 import libraryon.form.UserForm;
+import libraryon.model.Book;
+import libraryon.model.User;
 import utilities.DBUtil;
 
 public class UserDAO {
@@ -78,7 +82,7 @@ public class UserDAO {
 		return loginform;
 
 	}
-	
+
 	/**
 	 * create a user and save it in the database
 	 * 
@@ -97,11 +101,47 @@ public class UserDAO {
 			ps.setString(2, userForm.getSurname());
 			ps.setString(3, userForm.getAddress());
 			ps.setString(4, userForm.getEmail());
-			ps.setString(1, userForm.getPassword());
-
+			ps.setString(5, userForm.getPassword());
+			System.out.println(userForm.getName());
+			
 			ps.executeUpdate();
+			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+
+	public static List<User> userList() throws Exception {
+
+		List<User> userList = new ArrayList();
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "SELECT * FROM user";
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				User user = new User();
+				user.setId_user(rs.getLong("id_user"));
+				user.setName(rs.getString("name"));
+				user.setSurname(rs.getString("surname"));
+				user.setAddress(rs.getString("address"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+
+				userList.add(user);
+			}
+			System.out.println(ps);
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+
+		return userList;
 	}
 }

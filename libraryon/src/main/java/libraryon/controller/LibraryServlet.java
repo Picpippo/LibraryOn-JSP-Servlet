@@ -38,9 +38,10 @@ public class LibraryServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		page = "";
+		
 		String path = request.getServletPath();
 		String comand = path.substring(1, path.lastIndexOf(".do"));
-
+		
 		switch (comand) {
 		case "create-loan":
 			break;
@@ -56,6 +57,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "create-user":
+			createUser(request);
 			break;
 
 		case "delete-user":
@@ -65,7 +67,6 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "create-book":
-			System.out.println("dentro case");
 			createBook(request);
 			break;
 
@@ -80,8 +81,16 @@ public class LibraryServlet extends HttpServlet {
 			showBooks(request);
 			break;
 			
-		case "change-page":
+		case "show-users":
+			showUsers(request);
+			break;
+			
+		case "change-pageCB":
 			changePageCB(request);
+			break;
+			
+		case "change-pageCU":
+			changePageCU(request);
 			break;
 			
 		case "refresh":
@@ -137,8 +146,6 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	private void createBook(HttpServletRequest request) {
-		Book book = new Book();
-		
 		
 		BookForm bookForm = new BookForm();
 		bookForm.setTitle(request.getParameter("title"));
@@ -166,20 +173,27 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	private void createUser(HttpServletRequest request) {
-
-		User user = new User();
 		UserForm userForm = new UserForm();
 
+		userForm.setName(request.getParameter("name"));
+		userForm.setSurname(request.getParameter("surname"));
+		userForm.setAddress(request.getParameter("address"));
+		userForm.setEmail(request.getParameter("email"));
+		userForm.setPassword(request.getParameter("password"));
+		System.out.println("stampo form");
+		System.out.println(userForm.getName());
+		/*
 		user.setName(userForm.getName());
 		user.setSurname(userForm.getSurname());
 		user.setAddress(userForm.getAddress());
 		user.setEmail(userForm.getEmail());
-		user.setEmail(userForm.getEmail());
+		user.setPassword(userForm.getPassword());
 		System.out.println("prova");
-
+		*/
+		
 		try {
 			UserDAO.createUser(userForm);
-			page = "createBook";
+			page = "administration";
 			System.out.println("giusto");
 
 		} catch (Exception e) {
@@ -200,6 +214,21 @@ public class LibraryServlet extends HttpServlet {
 		}
 	}
 
+	private List<User> showUsers(HttpServletRequest request) {
+		UserDAO userDAO = new UserDAO();
+		List<User> userList = new ArrayList();
+		try {
+			userList = userDAO.userList();
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		request.getSession().setAttribute("userList", userList);
+		
+		page = "administration";
+		return userList;
+	}
+	
 	private List<Book> showBooks(HttpServletRequest request) {
 		BookDAO bookDAO = new BookDAO();
 		List<Book> bookList = new ArrayList();
@@ -217,7 +246,10 @@ public class LibraryServlet extends HttpServlet {
 	
 	private void changePageCB(HttpServletRequest request) {
 		page = "createBook";
-		
+	}
+	
+	private void changePageCU(HttpServletRequest request) {
+		page = "createUser";
 	}
 	
 	private void refresh(HttpServletRequest request) {
