@@ -9,9 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="createUser.jsp">
-		<button>create user</button>
-	</a>
+	<form action="change-pageCU.do">
+		<input type="submit" value="create">
+	</form>
 
 	<table border=1>
 		<tr>

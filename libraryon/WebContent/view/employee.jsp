@@ -9,7 +9,7 @@
 
 </head>
 <body bgcolor="whitesmoke">
-	<form action="change-page.do">
+	<form action="change-pageCB.do">
 		<input type="submit" value="crea">
 	</form>
 	<br>

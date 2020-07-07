@@ -17,5 +17,10 @@
 
 	</form>
 
+	<form action="show-users.do">
+
+		<input type="submit" value="users">
+
+	</form>
 </body>
 </html>

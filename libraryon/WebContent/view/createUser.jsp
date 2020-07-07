@@ -10,19 +10,19 @@
 <form action="create-user.do">
 
 	<label for="name">Name: </label> 
-	    <input type="text" id="name" name="fname">
+	    <input type="text" id="name" name="name">
 		<br>
     <label for="cognome">Surname: </label>
-		<input type="text" id="surname" name="fsurname">
+		<input type="text" id="surname" name="surname">
 		<br>
 	<label for="email">Address: </label> 
-		<input type="text" id="address" name="faddress">
+		<input type="text" id="address" name="address">
 		<br>
 	<label for="email">Email: </label> 
-		<input type="text" id="email" name="femail">
+		<input type="text" id="email" name="email">
 		<br>
 	<label for="email">Password: </label> 
-		<input type="text" id="password" name="fpassword">
+		<input type="text" id="password" name="password">
 		<br>
 	
     <button name="createUser" onclick="createUser(User user)">Create</button>
