@@ -21,14 +21,16 @@
 			<th>email</th>
 			<th>password</th>
 		</tr>
-		<c:forEach items="${userList}" var="post">
+		<c:forEach items="${userList}" var="user">
 			<tr>
-				<td>${post.name}</td>
-				<td>${post.surname}</td>
-				<td>${post.address}</td>
-				<td>${post.email}</td>
-				<td>${post.password}</td>
-				<td><form action="deleteUser.do"><input type="submit" value="delete"></form></td>
+				<td>${user.name}</td>
+				<td>${user.surname}</td>
+				<td>${user.address}</td>
+				<td>${user.email}</td>
+				<td>${user.password}</td>
+				<td><form action="delete-user.do">
+				<input type="hidden" id="id_user" name="id_user" value="${user.id_user}">
+				<input type="submit" value="delete"></form></td>
 				<td><a href="createUser.jsp"><button>create user</button></a></td>
 			</tr>
 		</c:forEach>

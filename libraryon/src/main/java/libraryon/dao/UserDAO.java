@@ -144,4 +144,19 @@ public class UserDAO {
 
 		return userList;
 	}
+	
+	public static void deleteUser(Long id_user) throws Exception {
+		Connection conn = DBUtil.getConnection();
+		String sql = "DELETE FROM user WHERE id_user = ?";
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setLong(1, id_user);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+	}
 }

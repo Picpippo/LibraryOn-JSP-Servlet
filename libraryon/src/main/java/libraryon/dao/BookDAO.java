@@ -70,15 +70,20 @@ public class BookDAO {
 	 * @param id, the id of the book
 	 * @throws Exception
 	 */
-	public static void updateBook(Long id_book) throws Exception {
+	public static void updateBook(BookForm bookForm, Long id_book) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
-		String sql = "UPDATE book SET title = ?, author = ?, quantity = ?, editor = ?, position = ?, WHERE id_book = ?";
+		String sql = "UPDATE book SET title = ?, author = ?, quantity = ?, editor = ?, position = ? WHERE id_book = ?";
 		PreparedStatement ps = null;
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setLong(1, id_book);
+			ps.setString(1, bookForm.getTitle());
+			ps.setString(2, bookForm.getAuthor());
+			ps.setLong(3, bookForm.getQuantity());
+			ps.setString(4, bookForm.getEditor());
+			ps.setString(5, bookForm.getPosition());
+			ps.setLong(6, id_book);
 			ps.executeUpdate();
 
 		} catch (SQLException e) {

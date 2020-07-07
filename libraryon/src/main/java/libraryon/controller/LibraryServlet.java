@@ -38,10 +38,10 @@ public class LibraryServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		page = "";
-		
+
 		String path = request.getServletPath();
 		String comand = path.substring(1, path.lastIndexOf(".do"));
-		
+
 		switch (comand) {
 		case "create-loan":
 			break;
@@ -61,6 +61,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "delete-user":
+			deleteUser(request);
 			break;
 
 		case "update-user":
@@ -75,26 +76,27 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-book":
+			updateBook(request);
 			break;
 
 		case "show-books":
 			showBooks(request);
 			break;
-			
+
 		case "show-users":
 			showUsers(request);
 			break;
-			
+
 		case "change-pageCB":
 			changePageCB(request);
 			break;
-			
+
 		case "change-pageCU":
 			changePageCU(request);
 			break;
-			
-		case "refresh":
-			refresh(request);
+
+		case "change-pageUB":
+			changePageUB(request);
 			break;
 		}
 
@@ -146,20 +148,13 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	private void createBook(HttpServletRequest request) {
-		
+
 		BookForm bookForm = new BookForm();
 		bookForm.setTitle(request.getParameter("title"));
 		bookForm.setEditor(request.getParameter("editor"));
-		//bookForm.setQuantity(request.getParameter("quantity"));
+		bookForm.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 		bookForm.setPosition(request.getParameter("position"));
 		bookForm.setAuthor(request.getParameter("author"));
-		
-		/*book.setAuthor(bookForm.getAuthor());	
-		book.setTitle(bookForm.getTitle());
-		book.setEditor(bookForm.getEditor());
-		book.setQuantity(bookForm.getQuantity());
-		book.setPosition(bookForm.getPosition());*/
-		System.out.println("ho fatto nella servlet");
 
 		try {
 			BookDAO.createBook(bookForm);
@@ -170,6 +165,7 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(e.getMessage());
 			System.out.println("sbagliato");
 		}
+		showBooks(request);
 	}
 
 	private void createUser(HttpServletRequest request) {
@@ -182,15 +178,7 @@ public class LibraryServlet extends HttpServlet {
 		userForm.setPassword(request.getParameter("password"));
 		System.out.println("stampo form");
 		System.out.println(userForm.getName());
-		/*
-		user.setName(userForm.getName());
-		user.setSurname(userForm.getSurname());
-		user.setAddress(userForm.getAddress());
-		user.setEmail(userForm.getEmail());
-		user.setPassword(userForm.getPassword());
-		System.out.println("prova");
-		*/
-		
+
 		try {
 			UserDAO.createUser(userForm);
 			page = "administration";
@@ -200,14 +188,13 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(e.getMessage());
 			System.out.println("sbagliato");
 		}
+		showUsers(request);
 	}
 
 	private void deleteBook(HttpServletRequest request) {
 
-		System.out.println("prova11");
-		System.out.println(request.getParameter("id_book"));
 		Long id_book = Long.parseLong(request.getParameter("id_book"));
-		
+
 		System.out.println(id_book);
 		try {
 			BookDAO.deleteBook(id_book);
@@ -216,6 +203,45 @@ public class LibraryServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		showBooks(request);
+
+	}
+
+	private void deleteUser(HttpServletRequest request) {
+
+		Long id_user = Long.parseLong(request.getParameter("id_user"));
+
+		System.out.println(id_user);
+		try {
+			UserDAO.deleteUser(id_user);
+			page = "administration";
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		showUsers(request);
+	}
+
+	private void updateBook(HttpServletRequest request) {
+
+		Long id_book = Long.parseLong(request.getParameter("id_book"));
+
+		BookForm bookForm = new BookForm();
+		bookForm.setTitle(request.getParameter("title"));
+		bookForm.setEditor(request.getParameter("editor"));
+		bookForm.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+		bookForm.setPosition(request.getParameter("position"));
+		bookForm.setAuthor(request.getParameter("author"));
+
+		try {
+			BookDAO bookdao = new BookDAO();
+			bookdao.updateBook(bookForm, id_book);
+			page = "employee";
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		showBooks(request);
 	}
 
 	private List<User> showUsers(HttpServletRequest request) {
@@ -223,41 +249,40 @@ public class LibraryServlet extends HttpServlet {
 		List<User> userList = new ArrayList();
 		try {
 			userList = userDAO.userList();
-		
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		request.getSession().setAttribute("userList", userList);
-		
+
 		page = "administration";
 		return userList;
 	}
-	
+
 	private List<Book> showBooks(HttpServletRequest request) {
 		BookDAO bookDAO = new BookDAO();
 		List<Book> bookList = new ArrayList();
 		try {
 			bookList = bookDAO.bookList();
-		
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		request.getSession().setAttribute("bookList", bookList);
-		
+
 		page = "employee";
 		return bookList;
 	}
-	
+
 	private void changePageCB(HttpServletRequest request) {
 		page = "createBook";
 	}
-	
+
 	private void changePageCU(HttpServletRequest request) {
 		page = "createUser";
 	}
-	
-	private void refresh(HttpServletRequest request) {
-		showBooks(request);
-		page = "employee";
-		}
+
+	private void changePageUB(HttpServletRequest request) {
+		page = "updateBook";
+	}
 }
