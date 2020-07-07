@@ -65,6 +65,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-user":
+			updateUser(request);
 			break;
 
 		case "create-book":
@@ -97,6 +98,10 @@ public class LibraryServlet extends HttpServlet {
 
 		case "change-pageUB":
 			changePageUB(request);
+			break;
+
+		case "change-pageUU":
+			changePageUU(request);
 			break;
 		}
 
@@ -195,7 +200,6 @@ public class LibraryServlet extends HttpServlet {
 
 		Long id_book = Long.parseLong(request.getParameter("id_book"));
 
-		System.out.println(id_book);
 		try {
 			BookDAO.deleteBook(id_book);
 			page = "employee";
@@ -211,7 +215,6 @@ public class LibraryServlet extends HttpServlet {
 
 		Long id_user = Long.parseLong(request.getParameter("id_user"));
 
-		System.out.println(id_user);
 		try {
 			UserDAO.deleteUser(id_user);
 			page = "administration";
@@ -242,6 +245,28 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(e);
 		}
 		showBooks(request);
+	}
+
+	private void updateUser(HttpServletRequest request) {
+
+		Long id_user = Long.parseLong(request.getParameter("id_user"));
+		
+		UserForm userForm = new UserForm();
+		userForm.setName(request.getParameter("name"));
+		userForm.setSurname(request.getParameter("surname"));
+		userForm.setAddress(request.getParameter("address"));
+		userForm.setEmail(request.getParameter("email"));
+		userForm.setPassword(request.getParameter("password"));
+
+		try {
+			UserDAO userdao = new UserDAO();
+			userdao.updateUser(userForm, id_user);
+			page = "administration";
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		showUsers(request);
 	}
 
 	private List<User> showUsers(HttpServletRequest request) {
@@ -284,5 +309,9 @@ public class LibraryServlet extends HttpServlet {
 
 	private void changePageUB(HttpServletRequest request) {
 		page = "updateBook";
+	}
+
+	private void changePageUU(HttpServletRequest request) {
+		page = "updateUser";
 	}
 }

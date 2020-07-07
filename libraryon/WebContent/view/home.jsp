@@ -19,7 +19,7 @@
 
 	<form action="show-users.do">
 
-		<input type="submit" value="users">
+		<input type="submit" value="Users">
 
 	</form>
 </body>

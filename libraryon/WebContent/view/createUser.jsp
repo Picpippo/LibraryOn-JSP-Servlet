@@ -25,7 +25,7 @@
 		<input type="text" id="password" name="password">
 		<br>
 	
-    <button name="createUser" onclick="createUser(User user)">Create</button>
+      <input type="submit" value="crea">
 
 	</form>
 </body>

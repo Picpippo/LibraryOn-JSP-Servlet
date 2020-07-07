@@ -103,7 +103,7 @@ public class UserDAO {
 			ps.setString(4, userForm.getEmail());
 			ps.setString(5, userForm.getPassword());
 			System.out.println(userForm.getName());
-			
+
 			ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -144,7 +144,7 @@ public class UserDAO {
 
 		return userList;
 	}
-	
+
 	public static void deleteUser(Long id_user) throws Exception {
 		Connection conn = DBUtil.getConnection();
 		String sql = "DELETE FROM user WHERE id_user = ?";
@@ -153,6 +153,27 @@ public class UserDAO {
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, id_user);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public static void updateUser(UserForm userForm, Long id_user) throws Exception {
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "UPDATE user SET name = ?, surname = ?, address = ?, email = ?, password = ? WHERE id_user = ?";
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, userForm.getName());
+			ps.setString(2, userForm.getSurname());
+			ps.setString(3, userForm.getAddress());
+			ps.setString(4, userForm.getEmail());
+			ps.setString(5, userForm.getPassword());
+			ps.setLong(6, id_user);
 			ps.executeUpdate();
 
 		} catch (SQLException e) {

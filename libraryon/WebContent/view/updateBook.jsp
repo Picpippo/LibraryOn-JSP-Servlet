@@ -10,9 +10,8 @@
 <body>
 <form action="update-book.do">
 		
-		<input type="hidden" id="id_book" name="id_book" value="1">
 		<label for="name">Title: </label> 
-	    <input type="text" id="title" name="title" value="title">
+	    <input type="text" id="title" name="title">
 			<br>
     	<label for="cognome">Author: </label>
 		<input type="text" id="author" name="author">
