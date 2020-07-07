@@ -190,10 +190,14 @@ public class LibraryServlet extends HttpServlet {
 
 	private void deleteBook(HttpServletRequest request) {
 
-		long id_book = Long.parseLong(request.getParameter("id_book"));
-
+		System.out.println("prova11");
+		System.out.println(request.getParameter("id_book"));
+		Long id_book = Long.parseLong(request.getParameter("id_book"));
+		
+		System.out.println(id_book);
 		try {
 			BookDAO.deleteBook(id_book);
+			page = "employee";
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

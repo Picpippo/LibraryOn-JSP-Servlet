@@ -19,6 +19,7 @@
 	</form>
 	<table border=1>
 		<tr>
+			<th>id</th>
 			<th>title</th>
 			<th>author</th>
 			<th>editor</th>
@@ -27,12 +28,14 @@
 		</tr>
 		<c:forEach items="${bookList}" var="book">
 			<tr>
+				<td>${book.id_book}</td>
 				<td>${book.title}</td>
 				<td>${book.author}</td>
 				<td>${book.editor}</td>
 				<td>${book.quantity}</td>
 				<td>${book.position}</td>
-				<td><form action="deleteBook.do">
+				<td><form action="delete-book.do">
+						
 						<input type="submit" value="delete">
 					</form></td>
 				<td><a href="updateBook.jsp"><button>Update book</button></a></td>

@@ -49,15 +49,14 @@ public class BookDAO {
 	 * @param id, the id of the book
 	 * @throws Exception
 	 */
-	public static void deleteBook(Long id) throws Exception {
-
+	public static void deleteBook(Long id_book) throws Exception {
 		Connection conn = DBUtil.getConnection();
-		String sql = "DELETE FROM book WHERE id = ?";
+		String sql = "DELETE FROM book WHERE id_book = ?";
 		PreparedStatement ps = null;
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setLong(1, id);
+			ps.setLong(1, id_book);
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -71,15 +70,15 @@ public class BookDAO {
 	 * @param id, the id of the book
 	 * @throws Exception
 	 */
-	public static void updateBook(Long id) throws Exception {
+	public static void updateBook(Long id_book) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
-		String sql = "UPDATE book SET title = ?, author = ?, quantity = ?, editor = ?, position = ?, WHERE id = ?";
+		String sql = "UPDATE book SET title = ?, author = ?, quantity = ?, editor = ?, position = ?, WHERE id_book = ?";
 		PreparedStatement ps = null;
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setLong(1, id);
+			ps.setLong(1, id_book);
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
