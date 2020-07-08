@@ -160,7 +160,7 @@ public class UserDAO {
 		}
 	}
 
-	public static void updateUser(UserForm userForm,Long id_user) throws Exception {
+	public static void updateUser(UserForm userForm) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
 		String sql = "UPDATE user SET name = ?, surname = ?, address = ?, email = ?, password = ? WHERE id_user = ?";
@@ -173,7 +173,7 @@ public class UserDAO {
 			ps.setString(3, userForm.getAddress());
 			ps.setString(4, userForm.getEmail());
 			ps.setString(5, userForm.getPassword());
-			ps.setLong(6, id_user);
+			ps.setLong(6, userForm.getId_user());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {

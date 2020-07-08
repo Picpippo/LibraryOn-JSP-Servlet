@@ -23,10 +23,10 @@ import libraryon.model.User;
 @WebServlet("*.do")
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	User user;
+	
+	List<User> ul = new ArrayList();
 	Loan loan;
-	Long id_user;
+	UserForm uf;
 	Long id_book;
 	
 	public LibraryServlet() {
@@ -67,7 +67,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-user":
-			updateUser(request, id_user);
+			updateUser(request, uf);
 			break;
 
 		case "create-book":
@@ -87,7 +87,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "show-users":
-			showUsers(request);
+			ul = showUsers(request);
 			break;
 
 		case "change-pageCB":
@@ -103,7 +103,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "change-pageUU":
-			id_user = changePageUU(request);
+			uf = changePageUU(request, ul);
 			break;
 		}
 
@@ -248,34 +248,17 @@ public class LibraryServlet extends HttpServlet {
 		showBooks(request);
 	}
 
-	private void updateUser(HttpServletRequest request,Long id_user) {
-		/*
-		user.setName(request.getParameter("name"));
-		user.setSurname(request.getParameter("surname"));
-		user.setAddress(request.getParameter("address"));
-		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
-		*/
+	private void updateUser(HttpServletRequest request, UserForm userForm) {
 		
-		UserForm userForm = new UserForm();
 		userForm.setName(request.getParameter("name"));
 		userForm.setSurname(request.getParameter("surname"));
 		userForm.setAddress(request.getParameter("address"));
 		userForm.setEmail(request.getParameter("email"));
 		userForm.setPassword(request.getParameter("password"));
 		
-		/*
-		request.setAttribute("id_user", user.getId_user());
-		request.setAttribute("name", user.getName());
-		request.setAttribute("surname", user.getSurname());
-		request.setAttribute("address", user.getAddress());
-		request.setAttribute("email", user.getEmail());
-		request.setAttribute("password", user.getPassword());
-		*/
-		
 		try {
 			UserDAO userdao = new UserDAO();
-			userdao.updateUser(userForm, id_user);
+			userdao.updateUser(userForm);;
 			page = "administration";
 
 		} catch (Exception e) {
@@ -329,9 +312,41 @@ public class LibraryServlet extends HttpServlet {
 		return id_book;
 	}
 
-	private Long changePageUU(HttpServletRequest request) {
-		Long id_user = Long.parseLong(request.getParameter("id_user"));
+	private UserForm changePageUU(HttpServletRequest request, List<User> userList) {
+		User user  = new User();
+		
+		int id_user = Integer.parseInt(request.getParameter("id_user"));
+		id_user = id_user -1;
+		String prova;
+		user = userList.get(id_user);
+		System.out.println("stampo user");
+		System.out.println(user.getName());
+		
+		
+		UserForm uf = new UserForm();
+		uf.setId_user(user.getId_user());
+		uf.setName(user.getName());
+		uf.setSurname(user.getSurname());
+		uf.setAddress(user.getAddress());
+		uf.setEmail(user.getEmail());
+		uf.setPassword(user.getPassword());
+		System.out.println("stampo form");
+		System.out.println(uf.getName());
+		
+		setAttribute(request,uf);
+		
 		page = "updateUser";
-		return id_user;
+		return uf;
+	}
+	
+	private void setAttribute(HttpServletRequest request, UserForm uf) {
+		System.out.println("sto nel set");
+		System.out.println(uf.getName());
+		request.setAttribute("name", uf.getName());
+		request.setAttribute("surname", uf.getSurname());
+		request.setAttribute("address", uf.getAddress());
+		request.setAttribute("email", uf.getEmail());
+		request.setAttribute("password", uf.getPassword());
+		System.out.println(uf.getName());
 	}
 }
