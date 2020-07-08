@@ -160,7 +160,7 @@ public class UserDAO {
 		}
 	}
 
-	public static void updateUser(UserForm userForm, Long id_user) throws Exception {
+	public static void updateUser(UserForm userForm,Long id_user) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
 		String sql = "UPDATE user SET name = ?, surname = ?, address = ?, email = ?, password = ? WHERE id_user = ?";

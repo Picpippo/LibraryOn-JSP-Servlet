@@ -9,8 +9,8 @@
 </head>
 <body>
 <form action="update-user.do">
-
-		<input type="hidden" id="id_user" name="id_user" value="1">
+		
+		<input type="hidden" id="id_user" name="id_user">
 		<label for="name">Name: </label> 
 	    <input type="text" id="name" name="name">
 			<br>
@@ -27,7 +27,6 @@
 		<input type="text" id="password" name="password">
 			<br>
     	<input type="submit" value="update">
-    
 	</form>
 </body>
 </html>

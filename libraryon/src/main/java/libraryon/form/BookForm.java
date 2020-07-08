@@ -2,19 +2,29 @@ package libraryon.form;
 
 public class BookForm {
 
+	private Long id_book;
 	private String title;
 	private String author;
 	private int quantity;
 	private String editor;
 	private String position;
 	
-	public BookForm(String title, String author, int quantity, String editor, String position) {
+	public BookForm(Long id_book, String title, String author, int quantity, String editor, String position) {
 		super();
+		this.id_book = id_book;
 		this.title = title;
 		this.author = author;
 		this.quantity = quantity;
 		this.editor = editor;
 		this.position = position;
+	}
+
+	public Long getId_book() {
+		return id_book;
+	}
+
+	public void setId_book(Long id_book) {
+		this.id_book = id_book;
 	}
 
 	public BookForm() {

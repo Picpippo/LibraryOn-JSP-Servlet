@@ -26,7 +26,9 @@ public class LibraryServlet extends HttpServlet {
 
 	User user;
 	Loan loan;
-
+	Long id_user;
+	Long id_book;
+	
 	public LibraryServlet() {
 		super();
 	}
@@ -65,7 +67,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-user":
-			updateUser(request);
+			updateUser(request, id_user);
 			break;
 
 		case "create-book":
@@ -77,7 +79,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-book":
-			updateBook(request);
+			updateBook(request, id_book);
 			break;
 
 		case "show-books":
@@ -97,11 +99,11 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "change-pageUB":
-			changePageUB(request);
+			id_book = changePageUB(request);
 			break;
 
 		case "change-pageUU":
-			changePageUU(request);
+			id_user = changePageUU(request);
 			break;
 		}
 
@@ -225,10 +227,9 @@ public class LibraryServlet extends HttpServlet {
 		showUsers(request);
 	}
 
-	private void updateBook(HttpServletRequest request) {
-
-		Long id_book = Long.parseLong(request.getParameter("id_book"));
-
+	private void updateBook(HttpServletRequest request, Long id_book) {
+		
+		
 		BookForm bookForm = new BookForm();
 		bookForm.setTitle(request.getParameter("title"));
 		bookForm.setEditor(request.getParameter("editor"));
@@ -247,9 +248,14 @@ public class LibraryServlet extends HttpServlet {
 		showBooks(request);
 	}
 
-	private void updateUser(HttpServletRequest request) {
-
-		Long id_user = Long.parseLong(request.getParameter("id_user"));
+	private void updateUser(HttpServletRequest request,Long id_user) {
+		/*
+		user.setName(request.getParameter("name"));
+		user.setSurname(request.getParameter("surname"));
+		user.setAddress(request.getParameter("address"));
+		user.setEmail(request.getParameter("email"));
+		user.setPassword(request.getParameter("password"));
+		*/
 		
 		UserForm userForm = new UserForm();
 		userForm.setName(request.getParameter("name"));
@@ -257,7 +263,16 @@ public class LibraryServlet extends HttpServlet {
 		userForm.setAddress(request.getParameter("address"));
 		userForm.setEmail(request.getParameter("email"));
 		userForm.setPassword(request.getParameter("password"));
-
+		
+		/*
+		request.setAttribute("id_user", user.getId_user());
+		request.setAttribute("name", user.getName());
+		request.setAttribute("surname", user.getSurname());
+		request.setAttribute("address", user.getAddress());
+		request.setAttribute("email", user.getEmail());
+		request.setAttribute("password", user.getPassword());
+		*/
+		
 		try {
 			UserDAO userdao = new UserDAO();
 			userdao.updateUser(userForm, id_user);
@@ -307,11 +322,16 @@ public class LibraryServlet extends HttpServlet {
 		page = "createUser";
 	}
 
-	private void changePageUB(HttpServletRequest request) {
+	private Long changePageUB(HttpServletRequest request) {
+		Long id_book = Long.parseLong(request.getParameter("id_book"));
+
 		page = "updateBook";
+		return id_book;
 	}
 
-	private void changePageUU(HttpServletRequest request) {
+	private Long changePageUU(HttpServletRequest request) {
+		Long id_user = Long.parseLong(request.getParameter("id_user"));
 		page = "updateUser";
+		return id_user;
 	}
 }
