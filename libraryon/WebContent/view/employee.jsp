@@ -42,6 +42,13 @@
 					<input type="submit" value="update">
 				</form>
 				</td>
+				<td>
+				
+				<form action="change-pageLOAN.do">
+					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
+					<input type="submit" value="Loan">
+				</form>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

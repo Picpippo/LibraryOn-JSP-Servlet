@@ -1,7 +1,12 @@
 package libraryon.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,8 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import libraryon.dao.BookDAO;
+import libraryon.dao.LoanDAO;
 import libraryon.dao.UserDAO;
 import libraryon.form.BookForm;
+import libraryon.form.LoanForm;
 import libraryon.form.LoginForm;
 import libraryon.form.UserForm;
 import libraryon.model.Book;
@@ -46,6 +53,7 @@ public class LibraryServlet extends HttpServlet {
 
 		switch (comand) {
 		case "create-loan":
+			createLoan(request, id_book);
 			break;
 
 		case "update-loan":
@@ -69,7 +77,11 @@ public class LibraryServlet extends HttpServlet {
 		case "update-user":
 			updateUser(request, id_user);
 			break;
-
+			
+		case "change-pageLOAN":
+			id_book = changePageLOAN(request);
+			break;
+		
 		case "create-book":
 			createBook(request);
 			break;
@@ -121,10 +133,6 @@ public class LibraryServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		processRequest(request, response);
-	}
-
-	private void createLoan(HttpServletRequest request) {
-		loan = new Loan();
 	}
 
 	private void login(HttpServletRequest request) {
@@ -196,6 +204,27 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println("sbagliato");
 		}
 		showUsers(request);
+	}
+	
+	private void createLoan(HttpServletRequest request, Long id_book) {
+		
+		LoanForm loanForm = new LoanForm();
+
+		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
+		loanForm.setAssignment_date(request.getParameter("assignment_date"));
+		loanForm.setExpiration_date(request.getParameter("expiration_date"));
+		loanForm.setState(request.getParameter("state"));
+
+		try {
+			LoanDAO.createLoan(loanForm, id_book);
+			page = "employee";
+			System.out.println("giusto");
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("sbagliato");
+		}
+		showBooks(request);
 	}
 
 	private void deleteBook(HttpServletRequest request) {
@@ -333,5 +362,11 @@ public class LibraryServlet extends HttpServlet {
 		Long id_user = Long.parseLong(request.getParameter("id_user"));
 		page = "updateUser";
 		return id_user;
+	}
+	
+	private Long changePageLOAN(HttpServletRequest request) {
+		Long id_book = Long.parseLong(request.getParameter("id_book"));
+		page = "loan";
+		return id_book;
 	}
 }
