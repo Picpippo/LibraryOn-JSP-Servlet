@@ -10,7 +10,10 @@
 </head>
 <body bgcolor="whitesmoke">
 	<form action="change-pageCB.do">
-		<input type="submit" value="crea">
+		<input type="submit" value="Create book">
+	</form>
+	<form action="change-pageLL.do">
+		<input type="submit" value="Loan list">
 	</form>
 	<br>
 	<br>

@@ -6,15 +6,15 @@ public class Loan {
 	private Long id_loan;
 	private Long id_book;
 	private Long id_user;
-	private Date assignment_date;
-	private Date expiration_date;
+	private String assignment_date;
+	private String expiration_date;
 	private String state;
 
 	public Loan() {
 		super();
 	}
 
-	public Loan(Long id_loan, Long id_book, Long id_user, Date assignment_date, Date expiration_date, String state) {
+	public Loan(Long id_loan, Long id_book, Long id_user, String assignment_date, String expiration_date, String state) {
 		super();
 		this.id_loan = id_loan;
 		this.id_book = id_book;
@@ -48,21 +48,7 @@ public class Loan {
 		this.id_user = id_user;
 	}
 
-	public Date getAssignment_date() {
-		return assignment_date;
-	}
-
-	public void setAssignment_date(Date assignment_date) {
-		this.assignment_date = assignment_date;
-	}
-
-	public Date getExpiration_date() {
-		return expiration_date;
-	}
-
-	public void setExpiration_date(Date expiration_date) {
-		this.expiration_date = expiration_date;
-	}
+	
 
 	public String getState() {
 		return state;
@@ -70,6 +56,22 @@ public class Loan {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getAssignment_date() {
+		return assignment_date;
+	}
+
+	public void setAssignment_date(String assignment_date) {
+		this.assignment_date = assignment_date;
+	}
+
+	public String getExpiration_date() {
+		return expiration_date;
+	}
+
+	public void setExpiration_date(String expiration_date) {
+		this.expiration_date = expiration_date;
 	}
 
 }
