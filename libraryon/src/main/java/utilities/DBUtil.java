@@ -14,12 +14,13 @@ public class DBUtil {
 	public static Connection getConnection() throws Exception {
 		FileReader reader = null;
 		try {
-		
-			reader = new FileReader("C:\\Users\\picci\\Documents\\repository\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
+
+			reader = new FileReader(
+					"C:\\Users\\picci\\Documents\\repository\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
 			p.load(reader);
 		} catch (FileNotFoundException e) {
 			throw new Exception("File conf.properties non trovato"
-				
+
 					+ "\nCopiare il file in: " + new java.io.File("").getAbsolutePath());
 		} catch (IOException e) {
 			throw new Exception(e.getMessage());
@@ -31,7 +32,7 @@ public class DBUtil {
 		String indirizzo = p.getProperty("indirizzo");
 		String porta = p.getProperty("porta");
 		String db = p.getProperty("db");
-		
+
 		Class.forName("com.mysql.cj.jdbc.Driver");
 
 		String url = "jdbc:" + jdbc + "://" + indirizzo + ":" + porta + "/" + db + "?serverTimezone=UTC";

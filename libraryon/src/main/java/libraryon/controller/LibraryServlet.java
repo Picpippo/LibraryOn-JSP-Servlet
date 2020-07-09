@@ -249,15 +249,10 @@ public class LibraryServlet extends HttpServlet {
 		}
 		showUsers(request);
 	}
-<<<<<<< HEAD
+
 	
 	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook) {
-		
-=======
 
-	private void createLoan(HttpServletRequest request, Long id_book) {
-
->>>>>>> 16fcabfda267cf1ee01c03e92f246069a20675cb
 		LoanForm loanForm = new LoanForm();
 
 		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
@@ -551,7 +546,6 @@ public class LibraryServlet extends HttpServlet {
 		page = "loan";
 		return id_book;
 	}
-<<<<<<< HEAD
 	
 	private void quantityMinus(HttpServletRequest request, List<Book> bookList, Long id_book) throws Exception{
 		
@@ -567,7 +561,6 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(e.getMessage());
 		}
  	}
-=======
 
 	private void changePageLL(HttpServletRequest request) {
 		page = "listLoan";
@@ -597,5 +590,4 @@ public class LibraryServlet extends HttpServlet {
 	private void backHome(HttpServletRequest request) {
 		page = "login";
 	}
->>>>>>> 16fcabfda267cf1ee01c03e92f246069a20675cb
 }
