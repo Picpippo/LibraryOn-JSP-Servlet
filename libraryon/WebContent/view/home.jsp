@@ -12,15 +12,11 @@
 
 <body>
 	 <form action="show-books.do">
-
 		<input type="submit" value="Employee">
-
 	</form>
-
+	<br>
 	<form action="show-users.do">
-
 		<input type="submit" value="Users">
-
 	</form>
 </body>
 </html>

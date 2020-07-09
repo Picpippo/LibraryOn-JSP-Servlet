@@ -24,9 +24,13 @@
 	<label for="email">Position: </label> 
 		<input type="text" id="position" name="position">
 		<br>
-	
-    <input type="submit" value="crea">
+	<br>
+    <input type="submit" value="Create Book">
 
+	</form>
+	<br>
+	<form action="show-books.do">
+		<input type="submit" value="Book List">
 	</form>
 </body>
 </html>

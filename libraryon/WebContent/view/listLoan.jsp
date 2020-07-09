@@ -27,19 +27,25 @@
 				<td>${loan.expiration_date}</td>
 				<td>${loan.state}</td>
 				<td>
-				<form action="delete-loan.do">
-					<input type="hidden" id="id_loan" name="id_loan" value="${loan.id_loan}">
-					<input type="submit" value="delete">
-				</form>
+					<form action="delete-loan.do">
+						<input type="hidden" id="id_loan" name="id_loan"
+							value="${loan.id_loan}"> <input type="submit"
+							value="Delete Loan">
+					</form>
 				</td>
 				<td>
-				<form action="change-pageUL.do">
-					<input type="hidden" id="id_loan" name="id_loan" value="${loan.id_loan}">
-					<input type="submit" value="update state">
-				</form>
+					<form action="change-pageUL.do">
+						<input type="hidden" id="id_loan" name="id_loan"
+							value="${loan.id_loan}"> <input type="submit"
+							value="Update State">
+					</form>
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
+	<br>
+	<form action="show-books.do">
+		<input type="submit" value="Book List">
+	</form>
 </body>
 </html>

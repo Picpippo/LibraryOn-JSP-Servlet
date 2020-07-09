@@ -10,7 +10,11 @@
 </head>
 <body bgcolor="whitesmoke">
 	<form action="change-pageCU.do">
-		<input type="submit" value="crea">
+		<input type="submit" value="Create User">
+	</form>
+	<br>
+	<form action="show-role.do">
+		<input type="submit" value="Show Roles">
 	</form>
 	<br>
 	<br>
@@ -30,20 +34,34 @@
 				<td>${user.email}</td>
 				<td>${user.password}</td>
 				<td>
-				<form action="delete-user.do">
-					<input type="hidden" id="id_user" name="id_user" value="${user.id_user}">
-					<input type="submit" value="delete">
-				</form>
+					<form action="delete-user.do">
+						<input type="hidden" id="id_user" name="id_user"
+							value="${user.id_user}"> <input type="submit"
+							value="Delete">
+					</form>
 				</td>
-				
+
 				<td>
-				<form action="change-pageUU.do">
-					<input type="hidden" id="id_user" name="id_user" value="${user.id_user}">
-					<input type="submit" value="update">
-				</form>
+					<form action="change-pageUU.do">
+						<input type="hidden" id="id_user" name="id_user"
+							value="${user.id_user}"> <input type="submit"
+							value="Update">
+					</form>
+				</td>
+				<td>
+					<form action="change-pageCR.do">
+						<input type="hidden" id="id_user" name="id_user"
+							value="${user.id_user}">
+						<input type="submit" value="Create Role">
+					</form>
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
+	<br>
+	<br>
+	<form action="back-home.do">
+		<input type="submit" value="Esci">
+	</form>
 </body>
 </html>
