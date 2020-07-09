@@ -13,6 +13,12 @@ import utilities.DBUtil;
 
 public class RoleDAO {
 
+	/**
+	 * method that shows the list of all roles
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public static List<Role> roleList() throws Exception {
 
 		List<Role> roleList = new ArrayList();
@@ -44,6 +50,12 @@ public class RoleDAO {
 		return roleList;
 	}
 
+	/**
+	 * 
+	 * @param roleForm, the form where we insert the role fields
+	 * @param id_user, the user id that we want to associate with the profile
+	 * @throws Exception
+	 */
 	public static void createRole(RoleForm roleForm, Long id_user) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
@@ -64,6 +76,12 @@ public class RoleDAO {
 		}
 	}
 
+	/**
+	 * method that delete a role in database
+	 * 
+	 * @param id_role, the id of the role that we want delete
+	 * @throws Exception
+	 */
 	public static void deleteRole(Long id_role) throws Exception {
 		Connection conn = DBUtil.getConnection();
 		String sql = "DELETE FROM role WHERE id_role = ?";
@@ -79,13 +97,19 @@ public class RoleDAO {
 		}
 	}
 
+	/**
+	 * method that update a role in database
+	 * 
+	 * @param roleForm, the form where we insert the role fields
+	 * @param id_role, the id of the role that we want update
+	 * @throws Exception
+	 */
 	public static void updateRole(RoleForm roleForm, Long id_role) throws Exception {
-		System.out.println("sto nel roleDao");
+
 		Connection conn = DBUtil.getConnection();
 		String sql = "UPDATE role SET id_profile = ? WHERE id_role = ?";
 		PreparedStatement ps = null;
-		System.out.println(id_role);
-		System.out.println(roleForm.getId_profile());
+
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, roleForm.getId_profile());

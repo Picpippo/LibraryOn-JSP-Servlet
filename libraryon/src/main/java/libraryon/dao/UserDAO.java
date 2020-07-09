@@ -8,20 +8,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import libraryon.form.BookForm;
 import libraryon.form.LoginForm;
 import libraryon.form.UserForm;
-import libraryon.model.Book;
 import libraryon.model.User;
 import utilities.DBUtil;
 
 public class UserDAO {
+	
 	static Connection conn = null;
 	static ResultSet rs = null;
 
+	/**
+	 * method that allows you to access the site only if you are registered
+	 * 
+	 * @param loginform, the form where we insert the user fields
+	 * @return
+	 */
 	public static LoginForm login(LoginForm loginform) {
-
-		// preparing some objects for connection
+		
 		Statement stmt = null;
 
 		String email = loginform.getEmail();
@@ -30,26 +34,24 @@ public class UserDAO {
 		String searchQuery = "select * from user where email='" + email + "' AND password='" + password + "'";
 
 		try {
-			// connect to DB
+			
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(searchQuery);
 			boolean more = rs.next();
 
-			// if user does not exist set the isValid variable to false
 			if (!more) {
 				loginform.setValid(false);
 			}
 
-			// if user exists set the isValid variable to true
 			else if (more) {
 				System.out.println("Welcome ");
 				loginform.setValid(true);
 			}
 		}
 
-		catch (Exception ex) {
-			System.out.println("Log In failed: An Exception has occurred! " + ex);
+		catch (Exception e) {
+			System.out.println(e);
 		}
 
 		finally {
@@ -112,6 +114,12 @@ public class UserDAO {
 		}
 	}
 
+	/**
+	 * method that shows the list of all users
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public static List<User> userList() throws Exception {
 
 		List<User> userList = new ArrayList();
@@ -145,6 +153,12 @@ public class UserDAO {
 		return userList;
 	}
 
+	/**
+	 * method that delete a user in database
+	 * 
+	 * @param id_user
+	 * @throws Exception
+	 */
 	public static void deleteUser(Long id_user) throws Exception {
 		Connection conn = DBUtil.getConnection();
 		String sql = "DELETE FROM user WHERE id_user = ?";
@@ -160,6 +174,13 @@ public class UserDAO {
 		}
 	}
 
+	/**
+	 * method that update a user in database
+	 * 
+	 * @param userForm, the form where we insert the user fields
+	 * @param id_user, the id of the user that we want update
+	 * @throws Exception
+	 */
 	public static void updateUser(UserForm userForm, Long id_user) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
