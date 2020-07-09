@@ -32,6 +32,7 @@ public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	List<User> ul = new ArrayList();
+	List<Book> bookList = new ArrayList();
 	Loan loan;
 	UserForm uf;
 	Long id_book;
@@ -53,7 +54,7 @@ public class LibraryServlet extends HttpServlet {
 
 		switch (comand) {
 		case "create-loan":
-			createLoan(request, id_book);
+			createLoan(request, id_book, bookList);
 			break;
 
 		case "update-loan":
@@ -95,7 +96,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "show-books":
-			showBooks(request);
+			bookList = showBooks(request);
 			break;
 
 		case "show-users":
@@ -206,7 +207,7 @@ public class LibraryServlet extends HttpServlet {
 		showUsers(request);
 	}
 	
-	private void createLoan(HttpServletRequest request, Long id_book) {
+	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook) {
 		
 		LoanForm loanForm = new LoanForm();
 
@@ -214,9 +215,9 @@ public class LibraryServlet extends HttpServlet {
 		loanForm.setAssignment_date(request.getParameter("assignment_date"));
 		loanForm.setExpiration_date(request.getParameter("expiration_date"));
 		loanForm.setState(request.getParameter("state"));
-
 		try {
 			LoanDAO.createLoan(loanForm, id_book);
+			quantityMinus(request, listBook, id_book);
 			page = "employee";
 			System.out.println("giusto");
 
@@ -384,4 +385,19 @@ public class LibraryServlet extends HttpServlet {
 		page = "loan";
 		return id_book;
 	}
+	
+	private void quantityMinus(HttpServletRequest request, List<Book> bookList, Long id_book) throws Exception{
+		
+		Book book = new Book();
+		book = bookList.get(Math.toIntExact(id_book)-1);
+		BookDAO bookDAO = new BookDAO();
+		
+	
+		try {
+		bookDAO.quantityMinus(book, id_book);
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+ 	}
 }

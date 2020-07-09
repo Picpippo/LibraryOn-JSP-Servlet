@@ -44,10 +44,17 @@
 				</td>
 				<td>
 				
+				
 				<form action="change-pageLOAN.do">
 					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
+					<c:if test="${book.quantity > 0}">
 					<input type="submit" value="Loan">
+					</c:if>
+					<c:if test="${book.quantity <= 0}">				
+					<input type="submit" value="Loan" disabled>
+					</c:if>
 				</form>
+				
 				</td>
 			</tr>
 		</c:forEach>

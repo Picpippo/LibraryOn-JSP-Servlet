@@ -25,9 +25,7 @@ public class LoanDAO {
 		String sql = "INSERT INTO loan (id_user, id_book, assignment_date, expiration_date, state) VALUES (?,?,?,?,?)";
 		PreparedStatement ps = null;
 		
-		System.out.println("sto per entrate nel try");
 		try {
-			System.out.println("so entrato nel try");
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, id_book);
 			ps.setLong(2, loanForm.getId_user());
@@ -39,12 +37,9 @@ public class LoanDAO {
 			ps.close();
 			conn.close();
 			
-			System.out.println("Sto alla fine del create Loan");
-			
 		} catch (SQLException e) {
 			throw new Exception(e.getMessage());	
 		}
-		System.out.println("so arrivato");
 	}
 
 	

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,10 @@ public class BookDAO {
 	 * @throws Exception
 	 */
 	public static void createBook(BookForm bookForm) throws Exception {
-		System.out.println("sto nel creaDao");
 		Connection conn = DBUtil.getConnection();
 		String sql = "INSERT INTO book (title, author, quantity, editor, position) VALUES (?,?,?,?,?)";
 		PreparedStatement ps = null;
-		
+
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, bookForm.getTitle());
@@ -32,17 +32,16 @@ public class BookDAO {
 			ps.setInt(3, bookForm.getQuantity());
 			ps.setString(4, bookForm.getEditor());
 			ps.setString(5, bookForm.getPosition());
-			
+
 			ps.executeUpdate();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
-		
+
 	}
 
-	
 	/**
 	 * delete a book in database
 	 * 
@@ -63,7 +62,7 @@ public class BookDAO {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * update a book in database
 	 * 
@@ -90,22 +89,23 @@ public class BookDAO {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * return a list of all books
 	 * 
 	 * @return, the books list
+	 * 
 	 * @throws Exception
 	 */
 	public static List<Book> bookList() throws Exception {
-		
-	    List<Book> bookList = new ArrayList();
+
+		List<Book> bookList = new ArrayList();
 		BookDAO bookDAO = new BookDAO();
-	    
+
 		Connection conn = DBUtil.getConnection();
 		String sql = "SELECT * FROM book";
 		PreparedStatement ps = null;
-		
+
 		try {
 			ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -117,17 +117,48 @@ public class BookDAO {
 				book.setPosition(rs.getString("position"));
 				book.setQuantity(rs.getInt("quantity"));
 				book.setTitle(rs.getString("title"));
-			
+
 				bookList.add(book);
 			}
-			System.out.println(ps);
 			ps.close();
 			conn.close();
-			
+
 		} catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
-	
+
 		return bookList;
+	}
+
+	/**
+	 * decrease the quantity of the book after making the loan
+	 * 
+	 * @param book, the book that we have to decrease
+	 * @param id_book, the id of the book
+	 * @throws Exception
+	 */
+	public void quantityMinus(Book book, Long id_book) throws Exception {
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "UPDATE book SET quantity = ? WHERE id_book = ?";
+		PreparedStatement ps = null;
+		Statement st = null;
+		
+		int quantity = book.getQuantity();
+		quantity = quantity -1;
+		book.setQuantity(quantity);
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			st = conn.createStatement();
+			
+			ps.setLong(1, book.getQuantity());
+			ps.setLong(2, id_book);
+			ps.executeUpdate();
+			
+		}  catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+
 	}
 }
