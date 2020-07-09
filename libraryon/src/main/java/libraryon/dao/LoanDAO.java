@@ -106,6 +106,13 @@ public class LoanDAO {
 		return loanList;
 	}
 	
+	/**
+	 * method that update a loan in database
+	 * 
+	 * @param loanForm, the form where we insert the loan fields
+	 * @param id_loan, the id of the loan that we want update
+	 * @throws Exception
+	 */
 	public static void updateLoan (LoanForm loanForm, Long id_loan) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
