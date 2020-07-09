@@ -41,7 +41,8 @@ public class LibraryServlet extends HttpServlet {
 	Long id_loan;
 	Long id_user;
 	Long id_role;
-	
+	int nLoan=0;
+	User us = new User();
 	public LibraryServlet() {
 		super();
 	}
@@ -59,7 +60,7 @@ public class LibraryServlet extends HttpServlet {
 
 		switch (comand) {
 		case "create-loan":
-			createLoan(request, id_book, bookList);
+			createLoan(request, id_book, bookList, ul);
 			break;
 
 		case "create-role":
@@ -251,12 +252,46 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	
-	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook) {
+	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook, List<User> listUser) {
 
 		LoanForm loanForm = new LoanForm();
-
+		int indexId;
+		
+		
+		indexId = Integer.parseInt(request.getParameter("id_user"));
+		
 		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
-
+		
+		for(User user:listUser) {
+			if(user.getId_user() == indexId){
+				us = listUser.get(indexId);
+				System.out.println(us.getName());
+			}else {
+				System.out.println(us.getName());
+				indexId ++;
+			}
+		}
+		
+		if(nLoan == 0) {
+			nLoan = us.getnLoan();
+			nLoan ++;
+			us.setnLoan(nLoan);
+		}else {
+			nLoan ++;
+			us.setnLoan(nLoan);
+		}
+		
+		System.out.println(nLoan);
+		System.out.println(us.getnLoan());
+		/*
+		
+		listUser.forEach(item -> { int IndexId =0;
+			if(item.getId_user().equals(id_user)){
+				us = listUser.get(indexId);
+			}else{
+				IndexId++;
+			}});*/
+		
 		/*
 		 * String date = request.getParameter("assignment_date"); try { Date dated = new
 		 * SimpleDateFormat("dd-MM-yyyy").parse(date); } catch (ParseException e) {
@@ -266,11 +301,18 @@ public class LibraryServlet extends HttpServlet {
 		loanForm.setAssignment_date(request.getParameter("assignment_date"));
 		loanForm.setExpiration_date(request.getParameter("expiration_date"));
 		loanForm.setState(request.getParameter("state"));
+		
 		try {
-			LoanDAO.createLoan(loanForm, id_book);
-			quantityMinus(request, listBook, id_book);
-			page = "employee";
-			System.out.println("giusto");
+			if(us.getnLoan()<=5) {
+				LoanDAO.createLoan(loanForm, id_book);
+				quantityMinus(request, listBook, id_book);
+				page = "employee";
+				System.out.println("giusto");
+			}else {
+				System.out.println("limit of loans reached");
+				page = "home";
+			}
+				
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

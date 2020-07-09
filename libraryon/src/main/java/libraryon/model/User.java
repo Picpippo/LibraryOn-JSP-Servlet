@@ -7,12 +7,13 @@ public class User {
 	private String address;
 	private String email;
 	private String password;
-
+	private int nLoan;
+	
 	public User() {
 		super();
 	}
 
-	public User(Long id_user, String name, String surname, String address, String email, String password) {
+	public User(Long id_user, String name, String surname, String address, String email, String password, int nLoan) {
 		super();
 		this.id_user = id_user;
 		this.name = name;
@@ -20,6 +21,7 @@ public class User {
 		this.address = address;
 		this.email = email;
 		this.password = password;
+		this.nLoan = nLoan;
 	}
 
 	public Long getId_user() {
@@ -70,4 +72,11 @@ public class User {
 		this.password = password;
 	}
 
+	public int getnLoan() {
+		return nLoan;
+	}
+
+	public void setnLoan(int nLoan) {
+		this.nLoan = nLoan;
+	}
 }
