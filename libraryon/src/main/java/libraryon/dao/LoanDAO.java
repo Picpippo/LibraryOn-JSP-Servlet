@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import libraryon.form.BookForm;
 import libraryon.form.LoanForm;
 import libraryon.model.Loan;
 import utilities.DBUtil;
@@ -85,10 +86,11 @@ public class LoanDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Loan loan = new Loan();
+				loan.setId_loan(rs.getLong("id_loan"));
 				loan.setId_book(rs.getLong("id_book"));
 				loan.setId_user(rs.getLong("id_user"));
-				loan.setAssignment_date(rs.getDate("assignment_date"));
-				loan.setExpiration_date(rs.getDate("expiration_date"));
+				loan.setAssignment_date(rs.getString("assignment_date"));
+				loan.setExpiration_date(rs.getString("expiration_date"));
 				loan.setState(rs.getString("state"));
 			
 				loanList.add(loan);
@@ -102,5 +104,22 @@ public class LoanDAO {
 		}
 	
 		return loanList;
+	}
+	
+	public static void updateLoan (LoanForm loanForm, Long id_loan) throws Exception {
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "UPDATE loan SET state = ? WHERE id_loan = ?";
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, loanForm.getState());
+			ps.setLong(2, id_loan);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 }

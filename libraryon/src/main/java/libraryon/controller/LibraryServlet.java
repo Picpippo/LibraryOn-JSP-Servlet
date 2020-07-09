@@ -1,10 +1,9 @@
 package libraryon.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,24 +17,30 @@ import javax.servlet.http.HttpSession;
 
 import libraryon.dao.BookDAO;
 import libraryon.dao.LoanDAO;
+import libraryon.dao.RoleDAO;
 import libraryon.dao.UserDAO;
 import libraryon.form.BookForm;
 import libraryon.form.LoanForm;
 import libraryon.form.LoginForm;
+import libraryon.form.RoleForm;
 import libraryon.form.UserForm;
 import libraryon.model.Book;
 import libraryon.model.Loan;
+import libraryon.model.Role;
 import libraryon.model.User;
 
 @WebServlet("*.do")
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	List<User> ul = new ArrayList();
 	List<Book> bookList = new ArrayList();
 	Loan loan;
 	UserForm uf;
 	Long id_book;
+	Long id_loan;
+	Long id_user;
+	Long id_role;
 	
 	public LibraryServlet() {
 		super();
@@ -57,10 +62,16 @@ public class LibraryServlet extends HttpServlet {
 			createLoan(request, id_book, bookList);
 			break;
 
-		case "update-loan":
+		case "create-role":
+			createRole(request, id_user);
 			break;
 
-		case "delete-loan":
+		case "update-role":
+			updateRole(request, id_role);
+			break;
+			
+		case "update-loan":
+			updateLoan(request, id_loan);
 			break;
 
 		case "login":
@@ -78,11 +89,11 @@ public class LibraryServlet extends HttpServlet {
 		case "update-user":
 			updateUser(request, uf);
 			break;
-			
+
 		case "change-pageLOAN":
 			id_book = changePageLOAN(request);
 			break;
-		
+
 		case "create-book":
 			createBook(request);
 			break;
@@ -91,12 +102,24 @@ public class LibraryServlet extends HttpServlet {
 			deleteBook(request);
 			break;
 
+		case "delete-loan":
+			deleteLoan(request);
+			break;
+
+		case "delete-role":
+			deleteRole(request);
+			break;
+
 		case "update-book":
 			updateBook(request, id_book);
 			break;
 
 		case "show-books":
 			bookList = showBooks(request);
+			break;
+
+		case "show-role":
+			showRole(request);
 			break;
 
 		case "show-users":
@@ -117,6 +140,26 @@ public class LibraryServlet extends HttpServlet {
 
 		case "change-pageUU":
 			uf = changePageUU(request, ul);
+			break;
+
+		case "change-pageLL":
+			changePageLL(request);
+			break;
+
+		case "change-pageUL":
+			id_loan = changePageUL(request);
+			break;
+
+		case "change-pageCR":
+			id_user = changePageCR(request);
+			break;
+			
+		case "change-pageUR":
+			id_role = changePageUR(request);
+			break;
+			
+		case "back-home":
+			backHome(request);
 			break;
 		}
 
@@ -206,12 +249,25 @@ public class LibraryServlet extends HttpServlet {
 		}
 		showUsers(request);
 	}
+<<<<<<< HEAD
 	
 	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook) {
 		
+=======
+
+	private void createLoan(HttpServletRequest request, Long id_book) {
+
+>>>>>>> 16fcabfda267cf1ee01c03e92f246069a20675cb
 		LoanForm loanForm = new LoanForm();
 
 		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
+
+		/*
+		 * String date = request.getParameter("assignment_date"); try { Date dated = new
+		 * SimpleDateFormat("dd-MM-yyyy").parse(date); } catch (ParseException e) {
+		 * System.out.println(e); }
+		 */
+
 		loanForm.setAssignment_date(request.getParameter("assignment_date"));
 		loanForm.setExpiration_date(request.getParameter("expiration_date"));
 		loanForm.setState(request.getParameter("state"));
@@ -226,6 +282,22 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println("sbagliato");
 		}
 		showBooks(request);
+	}
+
+	private void createRole(HttpServletRequest request, Long id_user) {
+
+		RoleForm roleForm = new RoleForm();
+		roleForm.setId_profile(Long.parseLong(request.getParameter("id_profile")));
+		try {
+			RoleDAO.createRole(roleForm, id_user);
+			page = "role";
+			System.out.println("giusto");
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("sbagliato");
+		}
+		showRole(request);
 	}
 
 	private void deleteBook(HttpServletRequest request) {
@@ -257,9 +329,36 @@ public class LibraryServlet extends HttpServlet {
 		showUsers(request);
 	}
 
+	private void deleteLoan(HttpServletRequest request) {
+
+		Long id_loan = Long.parseLong(request.getParameter("id_loan"));
+
+		try {
+			LoanDAO.deleteLoan(id_loan);
+			page = "listLoan";
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		showLoan(request);
+	}
+
+	private void deleteRole(HttpServletRequest request) {
+
+		Long id_role = Long.parseLong(request.getParameter("id_role"));
+
+		try {
+			RoleDAO.deleteRole(id_role);
+			page = "listRole";
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		showRole(request);
+	}
+
 	private void updateBook(HttpServletRequest request, Long id_book) {
-		
-		
+
 		BookForm bookForm = new BookForm();
 		bookForm.setTitle(request.getParameter("title"));
 		bookForm.setEditor(request.getParameter("editor"));
@@ -279,16 +378,17 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	private void updateUser(HttpServletRequest request, UserForm userForm) {
-		
+
 		userForm.setName(request.getParameter("name"));
 		userForm.setSurname(request.getParameter("surname"));
 		userForm.setAddress(request.getParameter("address"));
 		userForm.setEmail(request.getParameter("email"));
 		userForm.setPassword(request.getParameter("password"));
-		
+
 		try {
 			UserDAO userdao = new UserDAO();
-			userdao.updateUser(userForm);;
+			userdao.updateUser(userForm);
+			;
 			page = "administration";
 
 		} catch (Exception e) {
@@ -297,6 +397,43 @@ public class LibraryServlet extends HttpServlet {
 		showUsers(request);
 	}
 
+	private void updateLoan(HttpServletRequest request, Long id_loan) {
+
+		LoanForm loanForm = new LoanForm();
+		loanForm.setState(request.getParameter("state"));
+
+		try {
+			LoanDAO loandao = new LoanDAO();
+			loandao.updateLoan(loanForm, id_loan);
+			;
+			page = "listLoan";
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		showLoan(request);
+
+	}
+
+
+	private void updateRole(HttpServletRequest request, Long id_role) {
+		System.out.println("sto nel up role");
+		RoleForm roleForm = new RoleForm();
+		roleForm.setId_profile(Long.parseLong(request.getParameter("id_profile")));
+
+		try {
+			RoleDAO roledao = new RoleDAO();
+			roledao.updateRole(roleForm, id_role);
+			
+			page = "listRole";
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		showRole(request);
+
+	}
+	
 	private List<User> showUsers(HttpServletRequest request) {
 		UserDAO userDAO = new UserDAO();
 		List<User> userList = new ArrayList();
@@ -327,6 +464,36 @@ public class LibraryServlet extends HttpServlet {
 		return bookList;
 	}
 
+	private List<Loan> showLoan(HttpServletRequest request) {
+		LoanDAO loanDAO = new LoanDAO();
+		List<Loan> loanList = new ArrayList();
+		try {
+			loanList = loanDAO.loanList();
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		request.getSession().setAttribute("loanList", loanList);
+
+		page = "listLoan";
+		return loanList;
+	}
+
+	private List<Role> showRole(HttpServletRequest request) {
+		RoleDAO roleDAO = new RoleDAO();
+		List<Role> roleList = new ArrayList();
+		try {
+			roleList = roleDAO.roleList();
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		request.getSession().setAttribute("roleList", roleList);
+
+		page = "listRole";
+		return roleList;
+	}
+
 	private void changePageCB(HttpServletRequest request) {
 		page = "createBook";
 	}
@@ -343,16 +510,15 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	private UserForm changePageUU(HttpServletRequest request, List<User> userList) {
-		User user  = new User();
-		
+		User user = new User();
+
 		int id_user = Integer.parseInt(request.getParameter("id_user"));
-		id_user = id_user -1;
+		id_user = id_user - 1;
 		String prova;
 		user = userList.get(id_user);
 		System.out.println("stampo user");
 		System.out.println(user.getName());
-		
-		
+
 		UserForm uf = new UserForm();
 		uf.setId_user(user.getId_user());
 		uf.setName(user.getName());
@@ -362,13 +528,13 @@ public class LibraryServlet extends HttpServlet {
 		uf.setPassword(user.getPassword());
 		System.out.println("stampo form");
 		System.out.println(uf.getName());
-		
-		setAttribute(request,uf);
-		
+
+		setAttribute(request, uf);
+
 		page = "updateUser";
 		return uf;
 	}
-	
+
 	private void setAttribute(HttpServletRequest request, UserForm uf) {
 		System.out.println("sto nel set");
 		System.out.println(uf.getName());
@@ -379,12 +545,13 @@ public class LibraryServlet extends HttpServlet {
 		request.setAttribute("password", uf.getPassword());
 		System.out.println(uf.getName());
 	}
-	
+
 	private Long changePageLOAN(HttpServletRequest request) {
 		Long id_book = Long.parseLong(request.getParameter("id_book"));
 		page = "loan";
 		return id_book;
 	}
+<<<<<<< HEAD
 	
 	private void quantityMinus(HttpServletRequest request, List<Book> bookList, Long id_book) throws Exception{
 		
@@ -400,4 +567,35 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(e.getMessage());
 		}
  	}
+=======
+
+	private void changePageLL(HttpServletRequest request) {
+		page = "listLoan";
+		showLoan(request);
+	}
+
+	private Long changePageUL(HttpServletRequest request) {
+		Long id_loan = Long.parseLong(request.getParameter("id_loan"));
+		page = "updateLoan";
+		showLoan(request);
+		return id_loan;
+	}
+
+	private Long changePageCR(HttpServletRequest request) {
+		Long id_user = Long.parseLong(request.getParameter("id_user"));
+		page = "role";
+		return id_user;
+	}
+
+	private Long changePageUR(HttpServletRequest request) {
+		Long id_role = Long.parseLong(request.getParameter("id_role"));
+		System.out.println("id_role");
+		page = "updateRole";
+		return id_role;
+	}
+
+	private void backHome(HttpServletRequest request) {
+		page = "login";
+	}
+>>>>>>> 16fcabfda267cf1ee01c03e92f246069a20675cb
 }

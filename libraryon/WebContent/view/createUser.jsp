@@ -24,9 +24,13 @@
 	<label for="email">Password: </label> 
 		<input type="text" id="password" name="password">
 		<br>
-	
-      <input type="submit" value="crea">
+	<br>
+      <input type="submit" value="Create">
 
+	</form>
+	<br>
+	<form action="show-users.do">
+		<input type="submit" value="User List">
 	</form>
 </body>
 </html>

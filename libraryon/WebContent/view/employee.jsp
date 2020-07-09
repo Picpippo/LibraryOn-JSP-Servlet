@@ -10,7 +10,11 @@
 </head>
 <body bgcolor="whitesmoke">
 	<form action="change-pageCB.do">
-		<input type="submit" value="crea">
+		<input type="submit" value="Create book">
+	</form>
+	<br>
+	<form action="change-pageLL.do">
+		<input type="submit" value="Loan list">
 	</form>
 	<br>
 	<br>
@@ -32,14 +36,14 @@
 				<td>
 				<form action="delete-book.do">
 					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
-					<input type="submit" value="delete">
+					<input type="submit" value="Delete">
 				</form>
 				</td>
 				
 				<td>
 				<form action="change-pageUB.do">
 					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
-					<input type="submit" value="update">
+					<input type="submit" value="Update">
 				</form>
 				</td>
 				<td>
@@ -47,17 +51,26 @@
 				
 				<form action="change-pageLOAN.do">
 					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
+<<<<<<< HEAD
 					<c:if test="${book.quantity > 0}">
 					<input type="submit" value="Loan">
 					</c:if>
 					<c:if test="${book.quantity <= 0}">				
 					<input type="submit" value="Loan" disabled>
 					</c:if>
+=======
+					<input type="submit" value="Create Loan">
+>>>>>>> 16fcabfda267cf1ee01c03e92f246069a20675cb
 				</form>
 				
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
+	<br>
+	<br>
+	<form action="back-home.do">
+		<input type="submit" value="Home">
+	</form>
 </body>
 </html>
