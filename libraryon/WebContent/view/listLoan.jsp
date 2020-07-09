@@ -35,9 +35,8 @@
 				</td>
 				<td>
 					<form action="change-pageUL.do">
-						<input type="hidden" id="id_loan" name="id_loan"
-							value="${loan.id_loan}"> <input type="submit"
-							value="Update State">
+						<input type="hidden" id="id_loan" name="id_loan"value="${loan.id_loan}"> 
+						<input type="submit" value="Update State">
 					</form>
 				</td>
 			</tr>

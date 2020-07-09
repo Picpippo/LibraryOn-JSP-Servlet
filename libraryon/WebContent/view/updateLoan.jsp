@@ -9,7 +9,6 @@
 </head>
 <body>
 <form action="update-loan.do">
-		
 		<input type="hidden" id="id_loan" name="id_loan" >
 		<label for="state">State: </label> 
 	    <input type="text" id="state" name="state">

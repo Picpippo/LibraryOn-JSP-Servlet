@@ -54,6 +54,7 @@
 					<c:if test="${book.quantity > 0}">
 					<input type="submit" value="Loan">
 					</c:if>
+					
 					<c:if test="${book.quantity <= 0}">				
 					<input type="submit" value="Loan" disabled>
 					</c:if>
