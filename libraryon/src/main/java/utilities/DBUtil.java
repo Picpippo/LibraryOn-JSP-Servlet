@@ -14,7 +14,9 @@ public class DBUtil {
 	public static Connection getConnection() throws Exception {
 		FileReader reader = null;
 		try {
-			reader = new FileReader("C:\\Users\\seren\\Desktop\\biblioteca\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
+
+			reader = new FileReader("C:\\Users\\ASUS\\Documents\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
+
 			p.load(reader);
 		} catch (FileNotFoundException e) {
 			throw new Exception("File conf.properties non trovato" + "\nCopiare il file in: " + new java.io.File("").getAbsolutePath());
