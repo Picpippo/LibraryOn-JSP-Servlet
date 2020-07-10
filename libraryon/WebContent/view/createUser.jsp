@@ -6,7 +6,7 @@
 <meta charset="ISO-8859-1">
 <title>Create user</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="create-user.do">
 
 	<label for="name">Name: </label> 

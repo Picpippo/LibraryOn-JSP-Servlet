@@ -7,7 +7,7 @@
 <meta charset="ISO-8859-1">
 <title>Update Loan</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="update-loan.do">
 		<input type="hidden" id="id_loan" name="id_loan" >
 		<label for="state">State: </label> 

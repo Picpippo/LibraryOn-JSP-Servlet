@@ -105,7 +105,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "delete-loan":
-			deleteLoan(request);
+			deleteLoan(request, ul);
 			break;
 
 		case "delete-role":
@@ -262,52 +262,52 @@ public class LibraryServlet extends HttpServlet {
 	 * method that create a loan in database
 	 * 
 	 * @param request
-	 * @param id_book, the id of the book
+	 * @param id_book,  the id of the book
 	 * @param listBook, the list where the book is located
 	 */
 	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook, List<User> listUser) {
-		
+
 		LoanForm loanForm = new LoanForm();
 		Long indexId;
 		int id_user = 0;
 		indexId = Long.parseLong(request.getParameter("id_user"));
 		id_user = Integer.parseInt(request.getParameter("id_user"));
 		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
-		
-		for(User user:listUser) {
-			if(user.getId_user() == indexId){
-				us = listUser.get(id_user); 
-			}else{
-				indexId ++;
+
+		for (User user : listUser) {
+			if (user.getId_user() == indexId) {
+				us = listUser.get(id_user);
+			} else {
+				indexId++;
 			}
 		}
-		
-		if(us.getnLoan() == 0) {
+
+		if (us.getnLoan() == 0) {
 			System.out.println("sto nell' if");
 			nLoan = us.getnLoan();
-			nLoan ++;
+			nLoan++;
 			us.setnLoan(nLoan);
 			try {
 				System.out.println("sto nel try");
-				if(us.getnLoan() <= 5) {
-				UserDAO.nLoanPlus(us, indexId);
+				if (us.getnLoan() < 5) {
+					UserDAO.UpdatenLoan(us, indexId);
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-		}else {
-			nLoan ++;
+		} else {
+			nLoan++;
 			us.setnLoan(nLoan);
 			try {
-				UserDAO.nLoanPlus(us, indexId);
+				UserDAO.UpdatenLoan(us, indexId);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
-		
+
 		System.out.println(nLoan);
 		System.out.println(us.getnLoan());
-		
+
 		/*
 		 * String date = request.getParameter("assignment_date"); try { Date dated = new
 		 * SimpleDateFormat("dd-MM-yyyy").parse(date); } catch (ParseException e) {
@@ -317,21 +317,19 @@ public class LibraryServlet extends HttpServlet {
 		loanForm.setAssignment_date(request.getParameter("assignment_date"));
 		loanForm.setExpiration_date(request.getParameter("expiration_date"));
 		loanForm.setState(request.getParameter("state"));
-		
+
 		try {
 
-			if(us.getnLoan()<=5) {
+			if (us.getnLoan() < 5) {
 				LoanDAO.createLoan(loanForm, id_book);
 				quantityMinus(request, listBook, id_book);
 				page = "employee";
 				System.out.println("giusto");
-			}else {
+			} else {
 				System.out.println("limit of loans reached");
 				page = "home";
 			}
-				
 
-			LoanDAO.createLoan(loanForm, id_book);
 			quantityMinus(request, listBook, id_book);
 			page = "employee";
 
@@ -405,9 +403,40 @@ public class LibraryServlet extends HttpServlet {
 	 * 
 	 * @param request
 	 */
-	private void deleteLoan(HttpServletRequest request) {
+	private void deleteLoan(HttpServletRequest request, List<User> listUser) {
 
 		Long id_loan = Long.parseLong(request.getParameter("id_loan"));
+		Long indexId;
+		int id_user = 0;
+		indexId = Long.parseLong(request.getParameter("id_user"));
+		id_user = Integer.parseInt(request.getParameter("id_user"));
+
+		for (User user : listUser) {
+			if (user.getId_user() == indexId) {
+				us = listUser.get(id_user);
+			} else {
+				indexId++;
+			}
+		}
+		if (us.getnLoan() != 0) {
+		nLoan = us.getnLoan();
+		nLoan--;
+		us.setnLoan(nLoan);
+		try {
+			System.out.println("sto nel try");
+			if (us.getnLoan() != 0) {
+				UserDAO.UpdatenLoan(us, indexId);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		}else {
+		try {
+			UserDAO.UpdatenLoan(us, indexId);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		}
 
 		try {
 			LoanDAO.deleteLoan(id_loan);

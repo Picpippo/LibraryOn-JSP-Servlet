@@ -29,14 +29,16 @@
 				<td>
 					<form action="delete-loan.do">
 						<input type="hidden" id="id_loan" name="id_loan"
-							value="${loan.id_loan}"> <input type="submit"
-							value="Delete Loan">
+							value="${loan.id_loan}"> <input type="hidden"
+							id="id_user" name="id_user" value="${loan.id_user}"> <input
+							type="submit" value="Delete Loan">
 					</form>
 				</td>
 				<td>
 					<form action="change-pageUL.do">
-						<input type="hidden" id="id_loan" name="id_loan"value="${loan.id_loan}"> 
-						<input type="submit" value="Update State">
+						<input type="hidden" id="id_loan" name="id_loan"
+							value="${loan.id_loan}"> <input type="submit"
+							value="Update State">
 					</form>
 				</td>
 			</tr>

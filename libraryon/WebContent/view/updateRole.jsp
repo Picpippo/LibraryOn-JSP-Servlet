@@ -7,7 +7,7 @@
 <meta charset="ISO-8859-1">
 <title>Update Loan</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="update-role.do">
 		
 		<input type="hidden" id="id_role" name="id_role" >

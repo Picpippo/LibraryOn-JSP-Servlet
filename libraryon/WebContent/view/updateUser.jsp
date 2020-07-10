@@ -7,7 +7,7 @@
 <meta charset="ISO-8859-1">
 <title>Update User</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="update-user.do">
 		
 		<input type="hidden" id="id_user" name="id_user" >

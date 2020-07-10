@@ -203,7 +203,7 @@ public class UserDAO {
 		}
 	}
 	
-	public static void nLoanPlus(User user, Long id_user) throws Exception {
+	public static void UpdatenLoan(User user, Long id_user) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
 		String sql = "UPDATE user SET nLoan = ? WHERE id_user = ?";
@@ -222,4 +222,5 @@ public class UserDAO {
 			throw new Exception(e.getMessage());
 		}
 	}
+	
 }

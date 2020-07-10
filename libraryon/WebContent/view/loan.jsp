@@ -6,7 +6,7 @@
 <meta charset="ISO-8859-1">
 <title>Create loan</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="create-loan.do">
 
     <input type="hidden" id="id_book" name="id_book">

@@ -7,7 +7,7 @@
 <meta charset="ISO-8859-1">
 <title>Update Book</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="update-book.do">
 		
 		<input type="hidden" id="id_book" name="id_book">

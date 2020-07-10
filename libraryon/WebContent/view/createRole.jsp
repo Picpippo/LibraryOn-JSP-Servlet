@@ -6,7 +6,7 @@
 <meta charset="ISO-8859-1">
 <title>Create role</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="create-role.do">
 
     <input type="hidden" id="id_user" name="id_user">

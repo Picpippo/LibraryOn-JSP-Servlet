@@ -6,7 +6,7 @@
 <meta charset="ISO-8859-1">
 <title>Create Book</title>
 </head>
-<body>
+<body bgcolor="whitesmoke">
 <form action="create-book.do">
 
 	<label for="name">Title: </label> 
