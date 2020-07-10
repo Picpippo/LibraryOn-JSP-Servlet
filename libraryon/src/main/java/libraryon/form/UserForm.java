@@ -7,8 +7,9 @@ public class UserForm {
 	private String address;
 	private String email;
 	private String password;
+	private int nLoan;
 	
-	public UserForm(Long id_user ,String name, String surname, String address, String email, String password) {
+	public UserForm(Long id_user ,String name, String surname, String address, String email, String password, int nLoan) {
 		super();
 		this.id_user = id_user;
 		this.name = name;
@@ -16,6 +17,15 @@ public class UserForm {
 		this.address = address;
 		this.email = email;
 		this.password = password;
+		this.nLoan = nLoan;
+	}
+
+	public int getnLoan() {
+		return nLoan;
+	}
+
+	public void setnLoan(int nLoan) {
+		this.nLoan = nLoan;
 	}
 
 	public Long getId_user() {

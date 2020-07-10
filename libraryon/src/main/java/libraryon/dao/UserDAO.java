@@ -94,7 +94,7 @@ public class UserDAO {
 	public static void createUser(UserForm userForm) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
-		String sql = "INSERT INTO user (name, surname, address, email, password) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO user (name, surname, address, email, password, nLoan) VALUES (?,?,?,?,?,?)";
 		PreparedStatement ps = null;
 
 		try {
@@ -104,6 +104,7 @@ public class UserDAO {
 			ps.setString(3, userForm.getAddress());
 			ps.setString(4, userForm.getEmail());
 			ps.setString(5, userForm.getPassword());
+			ps.setInt(6, userForm.getnLoan());
 			System.out.println(userForm.getName());
 
 			ps.executeUpdate();
@@ -195,6 +196,26 @@ public class UserDAO {
 			ps.setString(4, userForm.getEmail());
 			ps.setString(5, userForm.getPassword());
 			ps.setLong(6, id_user);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
+	public static void nLoanPlus(User user, Long id_user) throws Exception {
+
+		Connection conn = DBUtil.getConnection();
+		String sql = "UPDATE user SET nLoan = ? WHERE id_user = ?";
+		PreparedStatement ps = null;
+
+		try {
+			System.out.println("stampo oggetto");
+			System.out.println(user.getnLoan());
+			System.out.println(id_user);
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getnLoan());
+			ps.setLong(2, id_user);
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
