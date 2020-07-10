@@ -141,7 +141,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "change-pageUU":
-			id_user = changePageUU(request);
+			id_user = changePageUU(request, ul);
 			break;
 
 		case "change-pageLL":
@@ -419,23 +419,23 @@ public class LibraryServlet extends HttpServlet {
 			}
 		}
 		if (us.getnLoan() != 0) {
-		nLoan = us.getnLoan();
-		nLoan--;
-		us.setnLoan(nLoan);
-		try {
-			System.out.println("sto nel try");
-			if (us.getnLoan() != 0) {
-				UserDAO.UpdatenLoan(us, indexId);
+			nLoan = us.getnLoan();
+			nLoan--;
+			us.setnLoan(nLoan);
+			try {
+				System.out.println("sto nel try");
+				if (us.getnLoan() != 0) {
+					UserDAO.UpdatenLoan(us, indexId);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		}else {
-		try {
-			UserDAO.UpdatenLoan(us, indexId);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		} else {
+			try {
+				UserDAO.UpdatenLoan(us, indexId);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 
 		try {
@@ -689,34 +689,43 @@ public class LibraryServlet extends HttpServlet {
 	 * @param request
 	 * @return
 	 */
-	private Long changePageUU(HttpServletRequest request) {
-
+	private Long changePageUU(HttpServletRequest request, List<User> listUser) {
+		int result = 0;
 		Long id_user = Long.parseLong(request.getParameter("id_user"));
-		/*
-		 * id_user = id_user - 1; String prova; user = userList.get(id_user);
-		 * System.out.println("stampo user"); System.out.println(user.getName());
-		 * 
-		 * UserForm uf = new UserForm(); uf.setId_user(user.getId_user());
-		 * uf.setName(user.getName()); uf.setSurname(user.getSurname());
-		 * uf.setAddress(user.getAddress()); uf.setEmail(user.getEmail());
-		 * uf.setPassword(user.getPassword()); System.out.println("stampo form");
-		 * System.out.println(uf.getName());
-		 * 
-		 * setAttribute(request, uf);
-		 */
+		int id = Integer.parseInt(request.getParameter("id_user"));
+		Long prova;
+		for (User user : listUser) {
+			prova = user.getId_user();
+			result = prova.compareTo(id_user);
+			System.out.println(result);
+			if (result == 0) {
+				System.out.println("sto nell'if");
+				System.out.println(user.getId_user());
+				us = listUser.get(id-1);
+			} 
+		}
+		
+		UserForm uf = new UserForm();
+		uf.setId_user(us.getId_user());
+		uf.setName(us.getName());
+		uf.setSurname(us.getSurname());
+		uf.setAddress(us.getAddress());
+		uf.setEmail(us.getEmail());
+		uf.setPassword(us.getPassword());
+
+		setAttribute(request, uf);
+
 		page = "updateUser";
 		return id_user;
 	}
 
-	/*
-	 * private void setAttribute(HttpServletRequest request, UserForm uf) {
-	 * System.out.println("sto nel set"); System.out.println(uf.getName());
-	 * request.setAttribute("name", uf.getName()); request.setAttribute("surname",
-	 * uf.getSurname()); request.setAttribute("address", uf.getAddress());
-	 * request.setAttribute("email", uf.getEmail());
-	 * request.setAttribute("password", uf.getPassword());
-	 * System.out.println(uf.getName()); }
-	 */
+	private void setAttribute(HttpServletRequest request, UserForm uf) {
+		request.setAttribute("name", uf.getName());
+		request.setAttribute("surname", uf.getSurname());
+		request.setAttribute("address", uf.getAddress());
+		request.setAttribute("email", uf.getEmail());
+		request.setAttribute("password", uf.getPassword());
+	}
 
 	/**
 	 * method that sends us to the page "loan" with the id of the book
