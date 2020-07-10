@@ -247,7 +247,7 @@ public class LibraryServlet extends HttpServlet {
 		userForm.setAddress(request.getParameter("address"));
 		userForm.setEmail(request.getParameter("email"));
 		userForm.setPassword(request.getParameter("password"));
-
+		userForm.setnLoan(0);
 		try {
 			UserDAO.createUser(userForm);
 			page = "administration";
@@ -266,43 +266,47 @@ public class LibraryServlet extends HttpServlet {
 	 * @param listBook, the list where the book is located
 	 */
 	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook, List<User> listUser) {
-
+		
 		LoanForm loanForm = new LoanForm();
-		int indexId;
-		
-		indexId = Integer.parseInt(request.getParameter("id_user"));
-		
+		Long indexId;
+		int id_user = 0;
+		indexId = Long.parseLong(request.getParameter("id_user"));
+		id_user = Integer.parseInt(request.getParameter("id_user"));
 		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
 		
 		for(User user:listUser) {
 			if(user.getId_user() == indexId){
-				us = listUser.get(indexId);
-				System.out.println(us.getName());
-			}else {
-				System.out.println(us.getName());
+				us = listUser.get(id_user); 
+			}else{
 				indexId ++;
 			}
 		}
 		
-		if(nLoan == 0) {
+		if(us.getnLoan() == 0) {
+			System.out.println("sto nell' if");
 			nLoan = us.getnLoan();
 			nLoan ++;
 			us.setnLoan(nLoan);
+			try {
+				System.out.println("sto nel try");
+				if(us.getnLoan() <= 5) {
+				UserDAO.nLoanPlus(us, indexId);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}else {
 			nLoan ++;
 			us.setnLoan(nLoan);
+			try {
+				UserDAO.nLoanPlus(us, indexId);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		
 		System.out.println(nLoan);
 		System.out.println(us.getnLoan());
-		/*
-		
-		listUser.forEach(item -> { int IndexId =0;
-			if(item.getId_user().equals(id_user)){
-				us = listUser.get(indexId);
-			}else{
-				IndexId++;
-			}});*/
 		
 		/*
 		 * String date = request.getParameter("assignment_date"); try { Date dated = new
