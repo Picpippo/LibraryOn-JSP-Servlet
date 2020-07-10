@@ -4,21 +4,80 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 
+
+<style>
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+body {
+	text-align: center;
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	margin: 0;
+	padding: 14px;
+	background-color: black;
+}
+
+li {
+	color: white;
+	font-family: verdana;
+	font-size: 25px;
+}
+
+table {
+	text-align: center;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
 </head>
+
 <body bgcolor="whitesmoke">
-	<form action="change-pageCB.do">
-		<input type="submit" value="Create book">
-	</form>
+
+	<ul>
+		<li>LibraryOn</li>
+	</ul>
 	<br>
-	<form action="change-pageLL.do">
-		<input type="submit" value="Loan list">
-	</form>
+	<table class="center">
+		<tr>
+			<td>
+				<form action="change-pageCB.do">
+					<input type="submit" value="Create book">
+				</form> 
+			</td>
+
+			<td>
+				<form action="change-pageLL.do">
+					<input type="submit" value="Loan list">
+				</form>
+			</td>
+
+			<td>
+				<form action="back-home.do">
+					<input type="submit" value="Exit">
+				</form>
+			</td>
+		</tr>
+	</table>
 	<br>
-	<br>
-	<table border=1>
+	<table border=1 class="center">
 		<tr>
 			<th>title</th>
 			<th>author</th>
@@ -34,40 +93,45 @@
 				<td>${book.quantity}</td>
 				<td>${book.position}</td>
 				<td>
-				<form action="delete-book.do">
-					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
-					<input type="submit" value="Delete">
-				</form>
+					<form action="delete-book.do">
+						<input type="hidden" id="id_book" name="id_book"
+							value="${book.id_book}"> <input type="submit"
+							value="Delete">
+					</form>
 				</td>
-				
+
 				<td>
-				<form action="change-pageUB.do">
-					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
-					<input type="submit" value="Update">
-				</form>
+					<form action="change-pageUB.do">
+						<input type="hidden" id="id_book" name="id_book"
+							value="${book.id_book}"> <input type="submit"
+							value="Update">
+					</form>
 				</td>
 				<td>
-				
-				
-				<form action="change-pageLOAN.do">
-					<input type="hidden" id="id_book" name="id_book" value="${book.id_book}">
-					<c:if test="${book.quantity > 0}">
-					<input type="submit" value="Loan">
-					</c:if>
-					
-					<c:if test="${book.quantity <= 0}">				
-					<input type="submit" value="Loan" disabled>
-					</c:if>
-				</form>
-				
+
+
+					<form action="change-pageLOAN.do">
+						<input type="hidden" id="id_book" name="id_book"
+							value="${book.id_book}">
+						<c:if test="${book.quantity > 0}">
+							<input type="submit" value="Loan">
+						</c:if>
+
+						<c:if test="${book.quantity <= 0}">
+							<input type="submit" value="Loan" disabled>
+						</c:if>
+					</form>
+
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<br>
 	<br>
-	<form action="back-home.do">
-		<input type="submit" value="Home">
-	</form>
+
+	<div class="footer">
+		<p>Copyright© By SPB</p>
+	</div>
+
 </body>
 </html>

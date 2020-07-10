@@ -4,23 +4,62 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+
+<style>
+body {
+	text-align: center;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	margin: 0;
+	padding: 14px;
+	background-color: black;
+}
+
+li {
+	color: white;
+	font-family: verdana;
+	font-size: 25px;
+}
+</style>
 <title>Create user</title>
 </head>
 <body bgcolor="whitesmoke">
-<form action="create-user.do">
+
+<ul>
+		<li>LibraryOn</li>
+	</ul>
+	<br>
+	<hr>
+
+	<h2>Create user</h2>
+
+ <form action="create-user.do">
 
 	<label for="name">Name: </label> 
 	    <input type="text" id="name" name="name">
-		<br>
+		<br><br>
     <label for="cognome">Surname: </label>
 		<input type="text" id="surname" name="surname">
-		<br>
+		<br><br>
 	<label for="email">Address: </label> 
 		<input type="text" id="address" name="address">
-		<br>
+		<br><br>
 	<label for="email">Email: </label> 
 		<input type="text" id="email" name="email">
-		<br>
+		<br><br>
 	<label for="email">Password: </label> 
 		<input type="text" id="password" name="password">
 		<br>
@@ -30,7 +69,13 @@
 	</form>
 	<br>
 	<form action="show-users.do">
-		<input type="submit" value="User List">
+		<input type="submit" value="Back">
 	</form>
+	<br>
+	<hr>
+
+	<div class="footer">
+		<p>Copyright© By SPB</p>
+	</div>
 </body>
 </html>

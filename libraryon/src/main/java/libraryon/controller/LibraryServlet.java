@@ -123,6 +123,10 @@ public class LibraryServlet extends HttpServlet {
 		case "show-role":
 			showRole(request);
 			break;
+			
+		case "show-loan":
+			showLoan(request);
+			break;
 
 		case "show-users":
 			ul = showUsers(request);
@@ -259,11 +263,12 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	/**
-	 * method that create a loan in database
+	 * method that create a loan in database and adds a loan to the user
 	 * 
 	 * @param request
 	 * @param id_book,  the id of the book
 	 * @param listBook, the list where the book is located
+	 * @param listUser, the list of users
 	 */
 	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook, List<User> listUser) {
 

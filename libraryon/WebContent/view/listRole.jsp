@@ -5,13 +5,57 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+
+<style>
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+body {
+	text-align: center;
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	margin: 0;
+	padding: 14px;
+	background-color: black;
+}
+
+li {
+	color: white;
+	font-family: verdana;
+	font-size: 25px;
+}
+
+table {
+	text-align: center;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
+<title>Role list</title>
 
 </head>
 <body bgcolor="whitesmoke">
+
+<ul>
+		<li>LibraryOn</li>
+	</ul>
 	<br>
 	<br>
-	<table border=1>
+	<br>
+	<table border=1 class="center">
 		<tr>
 			<th>id_role</th>
 			<th>id_user</th>
@@ -44,5 +88,12 @@
 	<form action="show-users.do">
 		<input type="submit" value="User List">
 	</form>
+	
+	<br>
+	<br>
+
+	<div class="footer">
+		<p>Copyright© By SPB</p>
+	</div>
 </body>
 </html>

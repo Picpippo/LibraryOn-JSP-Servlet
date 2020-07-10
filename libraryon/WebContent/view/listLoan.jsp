@@ -5,13 +5,55 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+
+<style>
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+body {
+	text-align: center;
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	margin: 0;
+	padding: 14px;
+	background-color: black;
+}
+
+li {
+	color: white;
+	font-family: verdana;
+	font-size: 25px;
+}
+
+table {
+	text-align: center;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
 <title>Insert title here</title>
 
 </head>
 <body bgcolor="whitesmoke">
+<ul>
+		<li>LibraryOn</li>
+	</ul>
 	<br>
 	<br>
-	<table border=1>
+	<table border=1 class="center">
 		<tr>
 			<th>id_book</th>
 			<th>id_user</th>
@@ -48,5 +90,9 @@
 	<form action="show-books.do">
 		<input type="submit" value="Book List">
 	</form>
+	
+	<div class="footer">
+		<p>Copyright© By SPB</p>
+	</div>
 </body>
 </html>
