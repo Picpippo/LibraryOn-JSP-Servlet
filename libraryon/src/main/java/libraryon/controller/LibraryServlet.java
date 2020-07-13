@@ -33,13 +33,15 @@ public class LibraryServlet extends HttpServlet {
 	List<Book> bookList = new ArrayList();
 	Loan loan;
 	UserForm uf;
+	BookForm bf;
 	Long id_book;
 	Long id_loan;
 	Long id_user;
 	Long id_role;
 	int nLoan = 0;
 	User us = new User();
-
+	Book bk = new Book();
+	
 	public LibraryServlet() {
 		super();
 	}
@@ -101,7 +103,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "delete-loan":
-			deleteLoan(request, ul);
+			deleteLoan(request, ul, bookList, id_book);
 			break;
 
 		case "delete-role":
@@ -137,7 +139,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "change-pageUB":
-			id_book = changePageUB(request);
+			id_book = changePageUB(request, bookList);
 			break;
 
 		case "change-pageUU":
@@ -268,29 +270,32 @@ public class LibraryServlet extends HttpServlet {
 	 * @param listUser, the list of users
 	 */
 	private void createLoan(HttpServletRequest request, Long id_book, List<Book> listBook, List<User> listUser) {
-
+		nLoan = 0;
 		LoanForm loanForm = new LoanForm();
 		Long indexId;
 		int id_user = 0;
+		int result = 0;
+		int index = 0;
+		Long prova;
 		indexId = Long.parseLong(request.getParameter("id_user"));
 		id_user = Integer.parseInt(request.getParameter("id_user"));
 		loanForm.setId_user(Long.parseLong(request.getParameter("id_user")));
 
-		for (User user : listUser) {
-			if (user.getId_user() == indexId) {
-				us = listUser.get(id_user);
-			} else {
-				indexId++;
+		for (Book book : bookList) {
+			prova = book.getId_book();
+			result = prova.compareTo(id_book);
+			if (result == 0) {
+				bk = bookList.get(index);
+			}else {
+				index++;
 			}
 		}
 
 		if (us.getnLoan() == 0) {
-			System.out.println("sto nell' if");
 			nLoan = us.getnLoan();
 			nLoan++;
 			us.setnLoan(nLoan);
 			try {
-				System.out.println("sto nel try");
 				if (us.getnLoan() < 5) {
 					UserDAO.UpdatenLoan(us, indexId);
 				}
@@ -326,13 +331,11 @@ public class LibraryServlet extends HttpServlet {
 				LoanDAO.createLoan(loanForm, id_book);
 				quantityMinus(request, listBook, id_book);
 				page = "employee";
-				System.out.println("giusto");
 			} else {
 				System.out.println("limit of loans reached");
 				page = "home";
 			}
 
-			quantityMinus(request, listBook, id_book);
 			page = "employee";
 
 		} catch (Exception e) {
@@ -405,7 +408,7 @@ public class LibraryServlet extends HttpServlet {
 	 * 
 	 * @param request
 	 */
-	private void deleteLoan(HttpServletRequest request, List<User> listUser) {
+	private void deleteLoan(HttpServletRequest request, List<User> listUser, List<Book> listBook, Long id_book) {
 
 		Long id_loan = Long.parseLong(request.getParameter("id_loan"));
 		Long indexId;
@@ -425,7 +428,6 @@ public class LibraryServlet extends HttpServlet {
 			nLoan--;
 			us.setnLoan(nLoan);
 			try {
-				System.out.println("sto nel try");
 				if (us.getnLoan() != 0) {
 					UserDAO.UpdatenLoan(us, indexId);
 				}
@@ -447,6 +449,14 @@ public class LibraryServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		try {
+			quantityPlus(request, listBook, id_book);
+				
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+		
 		showLoan(request);
 	}
 
@@ -678,9 +688,33 @@ public class LibraryServlet extends HttpServlet {
 	 * @param request
 	 * @return
 	 */
-	private Long changePageUB(HttpServletRequest request) {
+	private Long changePageUB(HttpServletRequest request, List<Book> bookList) {
 		Long id_book = Long.parseLong(request.getParameter("id_book"));
-
+		
+		int result = 0;
+		int index = 0;
+		Long prova;
+		
+		for (Book book : bookList) {
+			prova = book.getId_book();
+			result = prova.compareTo(id_book);
+			if (result == 0) {
+				bk = bookList.get(index);
+			}else {
+				index++;
+			}
+		}
+		
+		BookForm bf = new BookForm();
+		bf.setId_book(bk.getId_book());
+		bf.setTitle(bk.getTitle());
+		bf.setAuthor(bk.getAuthor());
+		bf.setQuantity(bk.getQuantity());
+		bf.setEditor(bk.getEditor());
+		bf.setPosition(bk.getPosition());
+		
+		setAttributeBf(request, bf);
+		
 		page = "updateBook";
 		return id_book;
 	}
@@ -694,17 +728,18 @@ public class LibraryServlet extends HttpServlet {
 	private Long changePageUU(HttpServletRequest request, List<User> listUser) {
 		int result = 0;
 		Long id_user = Long.parseLong(request.getParameter("id_user"));
-		int id = Integer.parseInt(request.getParameter("id_user"));
+		int index = 0;
 		Long prova;
+		
 		for (User user : listUser) {
 			prova = user.getId_user();
 			result = prova.compareTo(id_user);
-			System.out.println(result);
 			if (result == 0) {
-				System.out.println("sto nell'if");
-				System.out.println(user.getId_user());
-				us = listUser.get(id-1);
-			} 
+				us = listUser.get(index);
+			}
+			else {
+				index++;
+			}
 		}
 		
 		UserForm uf = new UserForm();
@@ -715,18 +750,26 @@ public class LibraryServlet extends HttpServlet {
 		uf.setEmail(us.getEmail());
 		uf.setPassword(us.getPassword());
 
-		setAttribute(request, uf);
+		setAttributeUf(request, uf);
 
 		page = "updateUser";
 		return id_user;
 	}
 
-	private void setAttribute(HttpServletRequest request, UserForm uf) {
+	private void setAttributeUf(HttpServletRequest request, UserForm uf) {
 		request.setAttribute("name", uf.getName());
 		request.setAttribute("surname", uf.getSurname());
 		request.setAttribute("address", uf.getAddress());
 		request.setAttribute("email", uf.getEmail());
 		request.setAttribute("password", uf.getPassword());
+	}	
+	
+	private void setAttributeBf(HttpServletRequest request, BookForm bf) {
+		request.setAttribute("title", bf.getTitle());
+		request.setAttribute("author", bf.getAuthor());
+		request.setAttribute("quantity", bf.getQuantity());
+		request.setAttribute("editor", bf.getEditor());
+		request.setAttribute("position", bf.getPosition());
 	}
 
 	/**
@@ -757,6 +800,28 @@ public class LibraryServlet extends HttpServlet {
 
 		try {
 			bookDAO.quantityMinus(book, id_book);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * method that increment the quantity field when a loan is deleted
+	 * 
+	 * @param request
+	 * @param bookList, the list where the book is located
+	 * @param id_book,  the id of the book that we want increment
+	 * @throws Exception
+	 */
+	private void quantityPlus(HttpServletRequest request, List<Book> bookList, Long id_book) throws Exception {
+
+		Book book = new Book();
+		book = bookList.get(Math.toIntExact(id_book) - 1);
+		BookDAO bookDAO = new BookDAO();
+
+		try {
+			bookDAO.quantityPlus(book, id_book);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

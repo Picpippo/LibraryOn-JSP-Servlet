@@ -15,7 +15,7 @@ public class DBUtil {
 		FileReader reader = null;
 		try {
 
-			reader = new FileReader("C:\\Users\\picci\\Documents\\repository\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
+			reader = new FileReader("C:\\Users\\ASUS\\Documents\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
 
 			p.load(reader);
 		} catch (FileNotFoundException e) {

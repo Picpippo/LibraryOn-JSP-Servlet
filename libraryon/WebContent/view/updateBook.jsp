@@ -52,19 +52,19 @@ li {
 		<input type="hidden" id="id_book" name="id_book">
 		
 		<label for="name">Title: </label> 
-	    <input type="text" id="title" name="title">
+	    <input type="text" id="title" name="title" value= "${title}">
 			<br><br>
     	<label for="cognome">Author: </label>
-		<input type="text" id="author" name="author">
+		<input type="text" id="author" name="author" value= "${author}">
 			<br><br>
 		<label for="email">Editor: </label> 
-		<input type="text" id="editor" name="editor">
+		<input type="text" id="editor" name="editor" value= "${editor}">
 			<br><br>
 		<label for="email">Quantity: </label> 
-		<input type="text" id="quantity" name="quantity">
+		<input type="text" id="quantity" name="quantity" value= "${quantity}">
 			<br><br>
 		<label for="email">Position: </label> 
-		<input type="text" id="position" name="position">
+		<input type="text" id="position" name="position" value= "${position}">
 			<br><br>
     	
     	<input type="submit" value="Update">

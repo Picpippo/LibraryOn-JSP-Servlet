@@ -159,6 +159,36 @@ public class BookDAO {
 		}  catch (SQLException e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+	
+	/**
+	 * decrease the quantity of the book after making the loan
+	 * 
+	 * @param book, the book that we have to decrease
+	 * @param id_book, the id of the book
+	 * @throws Exception
+	 */
+	public void quantityPlus(Book book, Long id_book) throws Exception {
 
+		Connection conn = DBUtil.getConnection();
+		String sql = "UPDATE book SET quantity = ? WHERE id_book = ?";
+		PreparedStatement ps = null;
+		Statement st = null;
+		
+		int quantity = book.getQuantity();
+		quantity = quantity +1;
+		book.setQuantity(quantity);
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			st = conn.createStatement();
+			
+			ps.setLong(1, book.getQuantity());
+			ps.setLong(2, id_book);
+			ps.executeUpdate();
+			
+		}  catch (SQLException e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 }
