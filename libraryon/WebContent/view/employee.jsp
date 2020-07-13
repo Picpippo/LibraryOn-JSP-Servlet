@@ -58,19 +58,19 @@ table {
 	<table class="center">
 		<tr>
 			<td>
-				<form action="change-pageCB.do">
+				<form method="post" action="change-pageCB.do">
 					<input type="submit" value="Create book">
 				</form> 
 			</td>
 
 			<td>
-				<form action="change-pageLL.do">
+				<form method="post" action="change-pageLL.do">
 					<input type="submit" value="Loan list">
 				</form>
 			</td>
 
 			<td>
-				<form action="back-home.do">
+				<form method="post" action="back-home.do">
 					<input type="submit" value="Exit">
 				</form>
 			</td>
@@ -93,7 +93,7 @@ table {
 				<td>${book.quantity}</td>
 				<td>${book.position}</td>
 				<td>
-					<form action="delete-book.do">
+					<form method="post" action="delete-book.do">
 						<input type="hidden" id="id_book" name="id_book"
 							value="${book.id_book}"> <input type="submit"
 							value="Delete">
@@ -101,7 +101,7 @@ table {
 				</td>
 
 				<td>
-					<form action="change-pageUB.do">
+					<form method="post" action="change-pageUB.do">
 						<input type="hidden" id="id_book" name="id_book"
 							value="${book.id_book}"> <input type="submit"
 							value="Update">
@@ -110,7 +110,7 @@ table {
 				<td>
 
 
-					<form action="change-pageLOAN.do">
+					<form method="post" action="change-pageLOAN.do">
 						<input type="hidden" id="id_book" name="id_book"
 							value="${book.id_book}">
 						<c:if test="${book.quantity > 0}">

@@ -45,7 +45,7 @@ li {
 	<hr>
 
 	<h2>Create book</h2>
-	<form action="create-book.do">
+	<form method="post" action="create-book.do">
 
 		<label for="name">Title: </label> 
 		<input type="text" id="title"name="title"> <br> <br>
@@ -66,7 +66,7 @@ li {
 
 	</form>
 	<br>
-	<form action="show-books.do">
+	<form method="post" action="show-books.do">
 		<input type="submit" value="Back">
 	</form>
 	<br>

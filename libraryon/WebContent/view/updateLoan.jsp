@@ -53,14 +53,14 @@ li {
 
 	<h2>Update loan</h2>
 	
-<form action="update-loan.do">
+<form method="post" action="update-loan.do">
 		<input type="hidden" id="id_loan" name="id_loan" >
 		<label for="state">State: </label> 
 	    <input type="text" id="state" name="state">
 		<input type="submit" value="Update">
 </form>
 <br>
-<form action="show-loan.do">
+<form method="post" action="show-loan.do">
 		<input type="submit" value="Back">
 	</form>
 <br>

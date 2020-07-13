@@ -54,7 +54,7 @@ li {
 
 	<h2>Update role</h2>
 	
-<form action="update-role.do">
+<form method="post" action="update-role.do">
 		
 		<input type="hidden" id="id_role" name="id_role" >
 		<label for="id_profile">Profile: </label> 
@@ -62,7 +62,7 @@ li {
 		<input type="submit" value="Modify">
 </form>
 <br>
-<form action="show-role.do">
+<form method="post" action="show-role.do">
 		<input type="submit" value="Back">
 	</form>
 <br>

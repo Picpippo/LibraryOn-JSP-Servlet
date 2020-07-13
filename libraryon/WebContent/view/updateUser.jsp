@@ -48,7 +48,7 @@ li {
 
 	<h2>Update user</h2>
 	
-<form action="update-user.do">
+<form method="post" action="update-user.do">
 		
 		<input type="hidden" id="id_user" name="id_user" >
 		
@@ -70,7 +70,7 @@ li {
     	<input type="submit" value="Update">
     	<br><br>
 	</form>
-	<form action="show-users.do">
+	<form method="post" action="show-users.do">
 		<input type="submit" value="Back">
 	</form>
 	<br>

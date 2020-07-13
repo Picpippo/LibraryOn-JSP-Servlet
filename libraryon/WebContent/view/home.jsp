@@ -11,11 +11,11 @@
 </head>
 
 <body bgcolor="whitesmoke">
-	 <form action="show-books.do">
+	 <form method="post" action="show-books.do">
 		<input type="submit" value="Employee">
 	</form>
 	<br>
-	<form action="show-users.do">
+	<form method="post" action="show-users.do">
 		<input type="submit" value="Administrator">
 	</form>
 </body>

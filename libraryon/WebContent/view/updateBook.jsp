@@ -47,7 +47,7 @@ li {
 	<hr>
 	<h2>Update book</h2>
 	
-<form action="update-book.do">
+<form method="post" action="update-book.do">
 		
 		<input type="hidden" id="id_book" name="id_book">
 		
@@ -71,7 +71,7 @@ li {
     
 	</form>
 	<br>
-	<form action="show-books.do">
+	<form method="post" action="show-books.do">
 		<input type="submit" value="Back">
 	</form>
 	

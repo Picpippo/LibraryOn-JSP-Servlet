@@ -68,14 +68,14 @@ table {
 				<td>${role.id_user}</td>
 				<td>${role.id_profile}</td>
 				<td>
-					<form action="delete-role.do">
+					<form method="post" action="delete-role.do">
 						<input type="hidden" id="id_role" name="id_role"
 							value="${role.id_role}"> <input type="submit"
 							value="Delete">
 					</form>
 				</td>
 				<td>
-					<form action="change-pageUR.do">
+					<form method="post" action="change-pageUR.do">
 						<input type="hidden" id="id_role" name="id_role"
 							value="${role.id_role}"> <input type="submit"
 							value="Update">
@@ -85,7 +85,7 @@ table {
 		</c:forEach>
 	</table>
 	<br>
-	<form action="show-users.do">
+	<form method="post" action="show-users.do">
 		<input type="submit" value="User List">
 	</form>
 	

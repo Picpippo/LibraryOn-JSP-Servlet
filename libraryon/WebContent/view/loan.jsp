@@ -47,7 +47,7 @@ li {
 
 	<h2>Create loan</h2>
 	
-<form action="create-loan.do">
+<form method="post" action="create-loan.do">
 
     <input type="hidden" id="id_book" name="id_book">
 
@@ -68,7 +68,7 @@ li {
 
 	</form>
 	<br>
-	<form action="show-books.do">
+	<form method="post" action="show-books.do">
 		<input type="submit" value="Back">
 	</form>
 	<br>

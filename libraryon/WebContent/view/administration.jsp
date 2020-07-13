@@ -55,17 +55,17 @@ table {
 	<table class="center">
 		<tr>
 			<td>
-				<form action="change-pageCU.do">
+				<form method="post" action="change-pageCU.do">
 					<input type="submit" value="Create User">
 				</form>
 			</td>
 			<td>
-				<form action="show-role.do">
+				<form method="post" action="show-role.do">
 					<input type="submit" value="Show Roles">
 				</form>
 			</td>
 			<td>
-				<form action="back-home.do">
+				<form method="post" action="back-home.do">
 					<input type="submit" value="Exit">
 				</form>
 			</td>
@@ -89,7 +89,7 @@ table {
 				<td>${user.email}</td>
 				<td>${user.password}</td>
 				<td>
-					<form action="delete-user.do">
+					<form method="post" action="delete-user.do">
 						<input type="hidden" id="id_user" name="id_user"
 							value="${user.id_user}"> <input type="submit"
 							value="Delete">
@@ -97,14 +97,14 @@ table {
 				</td>
 
 				<td>
-					<form action="change-pageUU.do">
+					<form method="post" action="change-pageUU.do">
 						<input type="hidden" id="id_user" name="id_user"
 							value="${user.id_user}"> <input type="submit"
 							value="Update">
 					</form>
 				</td>
 				<td>
-					<form action="change-pageCR.do">
+					<form method="post" action="change-pageCR.do">
 						<input type="hidden" id="id_user" name="id_user"
 							value="${user.id_user}"> <input type="submit"
 							value="Create Role">

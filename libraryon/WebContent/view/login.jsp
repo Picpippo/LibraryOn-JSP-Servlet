@@ -48,7 +48,7 @@ font-size: 25px;
     <hr>
     
     <h2>Login</h2>
-	<form action="login.do">
+	<form method="post" action="login.do">
 
 		Please enter email:<br> <input type="text" name="email" /> <br>
 		<br> Please enter password: <br> <input type="password"

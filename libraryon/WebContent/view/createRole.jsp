@@ -50,7 +50,7 @@ li {
 
 	<h2>Create role</h2>
 	
-<form action="create-role.do">
+<form method="post" action="create-role.do">
 
     <input type="hidden" id="id_user" name="id_user">
 
@@ -63,7 +63,7 @@ li {
 
 	</form>
 	<br>
-	<form action="show-users.do">
+	<form method="post" action="show-users.do">
 		<input type="submit" value="Back">
 	</form>
 	<br>

@@ -46,7 +46,7 @@ li {
 
 	<h2>Create user</h2>
 
- <form action="create-user.do">
+ <form method="post" action="create-user.do">
 
 	<label for="name">Name: </label> 
 	    <input type="text" id="name" name="name">
@@ -68,7 +68,7 @@ li {
 
 	</form>
 	<br>
-	<form action="show-users.do">
+	<form method="post" action="show-users.do">
 		<input type="submit" value="Back">
 	</form>
 	<br>

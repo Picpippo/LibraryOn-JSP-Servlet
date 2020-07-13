@@ -69,7 +69,7 @@ table {
 				<td>${loan.expiration_date}</td>
 				<td>${loan.state}</td>
 				<td>
-					<form action="delete-loan.do">
+					<form method="post" action="delete-loan.do">
 						<input type="hidden" id="id_loan" name="id_loan"
 							value="${loan.id_loan}"> <input type="hidden"
 							id="id_user" name="id_user" value="${loan.id_user}"> <input
@@ -77,7 +77,7 @@ table {
 					</form>
 				</td>
 				<td>
-					<form action="change-pageUL.do">
+					<form method="post" action="change-pageUL.do">
 						<input type="hidden" id="id_loan" name="id_loan"
 							value="${loan.id_loan}"> <input type="submit"
 							value="Update State">
@@ -87,7 +87,7 @@ table {
 		</c:forEach>
 	</table>
 	<br>
-	<form action="show-books.do">
+	<form method="post" action="show-books.do">
 		<input type="submit" value="Book List">
 	</form>
 	
