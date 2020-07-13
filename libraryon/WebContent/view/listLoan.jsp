@@ -44,11 +44,11 @@ table {
 	margin-right: auto;
 }
 </style>
-<title>Insert title here</title>
+<title>Loan list</title>
 
 </head>
 <body bgcolor="whitesmoke">
-<ul>
+	<ul>
 		<li>LibraryOn</li>
 	</ul>
 	<br>
@@ -83,6 +83,11 @@ table {
 							value="Update State">
 					</form>
 				</td>
+				<td>
+					<form method="post" action="change-pageSR.do">
+						<input type="submit" value="Send remind">
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -90,7 +95,7 @@ table {
 	<form method="post" action="show-books.do">
 		<input type="submit" value="Book List">
 	</form>
-	
+
 	<div class="footer">
 		<p>Copyright© By SPB</p>
 	</div>

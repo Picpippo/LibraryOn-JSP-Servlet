@@ -80,5 +80,4 @@ public class UserForm {
 		this.password = password;
 	}
 	
-	
 }

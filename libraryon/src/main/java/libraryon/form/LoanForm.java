@@ -74,7 +74,5 @@ public class LoanForm {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
-	
-	
+
 }

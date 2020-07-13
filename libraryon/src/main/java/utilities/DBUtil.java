@@ -14,8 +14,8 @@ public class DBUtil {
 	public static Connection getConnection() throws Exception {
 		FileReader reader = null;
 		try {
-
-			reader = new FileReader("C:\\Users\\ASUS\\Documents\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
+			//remember: change conf.properties file path by your own
+			reader = new FileReader("C:\\Users\\picci\\Documents\\repository\\biblioteca\\libraryon\\WebContent\\WEB-INF\\conf.properties");
 
 			p.load(reader);
 		} catch (FileNotFoundException e) {

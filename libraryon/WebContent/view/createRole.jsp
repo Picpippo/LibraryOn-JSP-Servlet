@@ -34,7 +34,7 @@ li {
 	font-size: 25px;
 }
 </style>
-<title>Create role</title>
+<title>Create Role</title>
 </head>
 <body bgcolor="whitesmoke">
 
@@ -54,7 +54,7 @@ li {
 
     <input type="hidden" id="id_user" name="id_user">
 
-    <label for="id_profile">Profile: </label>
+    <label for="id_profile">id Profile: </label>
 		<input type="text" id="id_profile" name="id_profile">
 		<br>
 		<br>

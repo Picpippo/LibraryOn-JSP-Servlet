@@ -48,8 +48,6 @@ public class Loan {
 		this.id_user = id_user;
 	}
 
-	
-
 	public String getState() {
 		return state;
 	}

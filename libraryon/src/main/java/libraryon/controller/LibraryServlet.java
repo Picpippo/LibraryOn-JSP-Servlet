@@ -41,7 +41,7 @@ public class LibraryServlet extends HttpServlet {
 	int nLoan = 0;
 	User us = new User();
 	Book bk = new Book();
-	
+
 	public LibraryServlet() {
 		super();
 	}
@@ -121,7 +121,7 @@ public class LibraryServlet extends HttpServlet {
 		case "show-role":
 			showRole(request);
 			break;
-			
+
 		case "show-loan":
 			showLoan(request);
 			break;
@@ -162,6 +162,14 @@ public class LibraryServlet extends HttpServlet {
 			id_role = changePageUR(request);
 			break;
 
+		case "change-pageRem":
+			changePageRem(request);
+			break;
+
+		case "change-pageSR":
+			changePageSR(request);
+			break;
+
 		case "back-home":
 			backHome(request);
 			break;
@@ -180,7 +188,6 @@ public class LibraryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
 		processRequest(request, response);
 	}
 
@@ -219,16 +226,25 @@ public class LibraryServlet extends HttpServlet {
 	 * @param request
 	 */
 	private void createBook(HttpServletRequest request) {
-
+		boolean trigger = false;
 		BookForm bookForm = new BookForm();
 		bookForm.setTitle(request.getParameter("title"));
 		bookForm.setEditor(request.getParameter("editor"));
-		bookForm.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+		try {
+			bookForm.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+		} catch (Exception e) {
+			System.out.println("Insert only numbers in quantity field");
+			trigger = true;
+		}
+
 		bookForm.setPosition(request.getParameter("position"));
 		bookForm.setAuthor(request.getParameter("author"));
 
 		try {
-			BookDAO.createBook(bookForm);
+			if (trigger == false) {
+				BookDAO.createBook(bookForm);
+			}
+
 			page = "employee";
 
 		} catch (Exception e) {
@@ -286,7 +302,7 @@ public class LibraryServlet extends HttpServlet {
 			result = prova.compareTo(id_book);
 			if (result == 0) {
 				bk = bookList.get(index);
-			}else {
+			} else {
 				index++;
 			}
 		}
@@ -314,12 +330,6 @@ public class LibraryServlet extends HttpServlet {
 
 		System.out.println(nLoan);
 		System.out.println(us.getnLoan());
-
-		/*
-		 * String date = request.getParameter("assignment_date"); try { Date dated = new
-		 * SimpleDateFormat("dd-MM-yyyy").parse(date); } catch (ParseException e) {
-		 * System.out.println(e); }
-		 */
 
 		loanForm.setAssignment_date(request.getParameter("assignment_date"));
 		loanForm.setExpiration_date(request.getParameter("expiration_date"));
@@ -352,11 +362,17 @@ public class LibraryServlet extends HttpServlet {
 	 */
 	private void createRole(HttpServletRequest request, Long id_user) {
 
+		boolean trigger = false;
 		RoleForm roleForm = new RoleForm();
-		roleForm.setId_profile(Long.parseLong(request.getParameter("id_profile")));
 		try {
-			RoleDAO.createRole(roleForm, id_user);
-			page = "role";
+			roleForm.setId_profile(Long.parseLong(request.getParameter("id_profile")));
+		} catch (Exception e) {
+			System.out.println("Insert only numbers");
+		}
+		try {
+			if (trigger == true) {
+				RoleDAO.createRole(roleForm, id_user);
+			}
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -449,14 +465,14 @@ public class LibraryServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		try {
 			quantityPlus(request, listBook, id_book);
-				
-			} catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-		
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
 		showLoan(request);
 	}
 
@@ -564,12 +580,20 @@ public class LibraryServlet extends HttpServlet {
 	 */
 	private void updateRole(HttpServletRequest request, Long id_role) {
 
+		boolean trigger = false;
 		RoleForm roleForm = new RoleForm();
-		roleForm.setId_profile(Long.parseLong(request.getParameter("id_profile")));
+		try {
+			roleForm.setId_profile(Long.parseLong(request.getParameter("id_profile")));
+		} catch (Exception e) {
+			System.out.println("Insert only numbers");
+			trigger = true;
+		}
 
 		try {
-			RoleDAO roledao = new RoleDAO();
-			roledao.updateRole(roleForm, id_role);
+			if (trigger == true) {
+				RoleDAO roledao = new RoleDAO();
+				roledao.updateRole(roleForm, id_role);
+			}
 
 			page = "listRole";
 
@@ -690,21 +714,21 @@ public class LibraryServlet extends HttpServlet {
 	 */
 	private Long changePageUB(HttpServletRequest request, List<Book> bookList) {
 		Long id_book = Long.parseLong(request.getParameter("id_book"));
-		
+
 		int result = 0;
 		int index = 0;
 		Long prova;
-		
+
 		for (Book book : bookList) {
 			prova = book.getId_book();
 			result = prova.compareTo(id_book);
 			if (result == 0) {
 				bk = bookList.get(index);
-			}else {
+			} else {
 				index++;
 			}
 		}
-		
+
 		BookForm bf = new BookForm();
 		bf.setId_book(bk.getId_book());
 		bf.setTitle(bk.getTitle());
@@ -712,9 +736,9 @@ public class LibraryServlet extends HttpServlet {
 		bf.setQuantity(bk.getQuantity());
 		bf.setEditor(bk.getEditor());
 		bf.setPosition(bk.getPosition());
-		
+
 		setAttributeBf(request, bf);
-		
+
 		page = "updateBook";
 		return id_book;
 	}
@@ -730,18 +754,17 @@ public class LibraryServlet extends HttpServlet {
 		Long id_user = Long.parseLong(request.getParameter("id_user"));
 		int index = 0;
 		Long prova;
-		
+
 		for (User user : listUser) {
 			prova = user.getId_user();
 			result = prova.compareTo(id_user);
 			if (result == 0) {
 				us = listUser.get(index);
-			}
-			else {
+			} else {
 				index++;
 			}
 		}
-		
+
 		UserForm uf = new UserForm();
 		uf.setId_user(us.getId_user());
 		uf.setName(us.getName());
@@ -756,14 +779,26 @@ public class LibraryServlet extends HttpServlet {
 		return id_user;
 	}
 
+	/**
+	 * set the attributes in the form fields
+	 * 
+	 * @param request
+	 * @param uf,     the user form
+	 */
 	private void setAttributeUf(HttpServletRequest request, UserForm uf) {
 		request.setAttribute("name", uf.getName());
 		request.setAttribute("surname", uf.getSurname());
 		request.setAttribute("address", uf.getAddress());
 		request.setAttribute("email", uf.getEmail());
 		request.setAttribute("password", uf.getPassword());
-	}	
-	
+	}
+
+	/**
+	 * set the attributes in the form fields
+	 * 
+	 * @param request
+	 * @param uf,     the book form
+	 */
 	private void setAttributeBf(HttpServletRequest request, BookForm bf) {
 		request.setAttribute("title", bf.getTitle());
 		request.setAttribute("author", bf.getAuthor());
@@ -805,7 +840,7 @@ public class LibraryServlet extends HttpServlet {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * method that increment the quantity field when a loan is deleted
 	 * 
@@ -875,6 +910,14 @@ public class LibraryServlet extends HttpServlet {
 		return id_role;
 	}
 
+	private void changePageRem(HttpServletRequest request) {
+		page = "remindSent";
+	}
+
+	private void changePageSR(HttpServletRequest request) {
+		page = "remind";
+	}
+
 	/**
 	 * method that sends us to the home
 	 * 
@@ -883,4 +926,5 @@ public class LibraryServlet extends HttpServlet {
 	private void backHome(HttpServletRequest request) {
 		page = "login";
 	}
+
 }

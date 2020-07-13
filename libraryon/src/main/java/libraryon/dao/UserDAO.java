@@ -45,7 +45,6 @@ public class UserDAO {
 			}
 
 			else if (more) {
-				System.out.println("Welcome ");
 				loginform.setValid(true);
 			}
 		}
@@ -105,7 +104,6 @@ public class UserDAO {
 			ps.setString(4, userForm.getEmail());
 			ps.setString(5, userForm.getPassword());
 			ps.setInt(6, userForm.getnLoan());
-			System.out.println(userForm.getName());
 
 			ps.executeUpdate();
 			ps.close();
@@ -217,9 +215,6 @@ public class UserDAO {
 		PreparedStatement ps = null;
 
 		try {
-			System.out.println("stampo oggetto");
-			System.out.println(user.getnLoan());
-			System.out.println(id_user);
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, user.getnLoan());
 			ps.setLong(2, id_user);

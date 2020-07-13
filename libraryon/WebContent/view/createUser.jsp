@@ -34,7 +34,7 @@ li {
 	font-size: 25px;
 }
 </style>
-<title>Create user</title>
+<title>Create User</title>
 </head>
 <body bgcolor="whitesmoke">
 
