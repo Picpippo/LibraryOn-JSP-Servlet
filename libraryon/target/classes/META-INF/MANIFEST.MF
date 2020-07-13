@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: ASUS
 Build-Jdk: 13.0.2
+=======
+Built-By: picci
+Build-Jdk: 14.0.1
+>>>>>>> 0821498c9511e637b55744daddb9722434e324db
 Created-By: Maven Integration for Eclipse
 

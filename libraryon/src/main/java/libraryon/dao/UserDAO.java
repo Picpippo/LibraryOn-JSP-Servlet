@@ -203,6 +203,13 @@ public class UserDAO {
 		}
 	}
 	
+	/**
+	 * method that update a loan in database
+	 * 
+	 * @param user, the user having the loan
+	 * @param id_user, the id of the user
+	 * @throws Exception
+	 */
 	public static void UpdatenLoan(User user, Long id_user) throws Exception {
 
 		Connection conn = DBUtil.getConnection();
