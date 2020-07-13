@@ -33,13 +33,15 @@ public class LibraryServlet extends HttpServlet {
 	List<Book> bookList = new ArrayList();
 	Loan loan;
 	UserForm uf;
+	BookForm bf;
 	Long id_book;
 	Long id_loan;
 	Long id_user;
 	Long id_role;
 	int nLoan = 0;
 	User us = new User();
-
+	Book bk = new Book();
+	
 	public LibraryServlet() {
 		super();
 	}
@@ -137,7 +139,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "change-pageUB":
-			id_book = changePageUB(request);
+			id_book = changePageUB(request, bookList);
 			break;
 
 		case "change-pageUU":
@@ -677,9 +679,34 @@ public class LibraryServlet extends HttpServlet {
 	 * @param request
 	 * @return
 	 */
-	private Long changePageUB(HttpServletRequest request) {
+	private Long changePageUB(HttpServletRequest request, List<Book> bookList) {
 		Long id_book = Long.parseLong(request.getParameter("id_book"));
-
+		
+		int result = 0;
+		int id = Integer.parseInt(request.getParameter("id_book"));
+		Long prova;
+		
+		for (Book book : bookList) {
+			prova = book.getId_book();
+			result = prova.compareTo(id_book);
+			System.out.println(result);
+			if (result == 0) {
+				System.out.println("sto nell'if");
+				System.out.println(book.getId_book());
+				bk = bookList.get(id-1);
+			}
+		}
+		
+		BookForm bf = new BookForm();
+		bf.setId_book(bk.getId_book());
+		bf.setTitle(bk.getTitle());
+		bf.setAuthor(bk.getAuthor());
+		bf.setQuantity(bk.getQuantity());
+		bf.setEditor(bk.getEditor());
+		bf.setPosition(bk.getPosition());
+		
+		setAttributeBf(request, bf);
+		
 		page = "updateBook";
 		return id_book;
 	}
@@ -714,18 +741,26 @@ public class LibraryServlet extends HttpServlet {
 		uf.setEmail(us.getEmail());
 		uf.setPassword(us.getPassword());
 
-		setAttribute(request, uf);
+		setAttributeUf(request, uf);
 
 		page = "updateUser";
 		return id_user;
 	}
 
-	private void setAttribute(HttpServletRequest request, UserForm uf) {
+	private void setAttributeUf(HttpServletRequest request, UserForm uf) {
 		request.setAttribute("name", uf.getName());
 		request.setAttribute("surname", uf.getSurname());
 		request.setAttribute("address", uf.getAddress());
 		request.setAttribute("email", uf.getEmail());
 		request.setAttribute("password", uf.getPassword());
+	}	
+	
+	private void setAttributeBf(HttpServletRequest request, BookForm bf) {
+		request.setAttribute("title", bf.getTitle());
+		request.setAttribute("author", bf.getAuthor());
+		request.setAttribute("quantity", bf.getQuantity());
+		request.setAttribute("editor", bf.getEditor());
+		request.setAttribute("position", bf.getPosition());
 	}
 
 	/**
