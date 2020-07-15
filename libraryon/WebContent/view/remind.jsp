@@ -60,8 +60,9 @@ li {
 	<br>
 	<br>
 	</form>
-	<form method="post" action="change-pageRem.do">
+	<form method="post" action="change-page.do">
 		 <input type="submit" value="Send">
+		 <input type= "hidden" id="changePage" name=changePage value="reminder">
 	</form>
 	
 	<br>

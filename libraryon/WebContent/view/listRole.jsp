@@ -75,10 +75,10 @@ table {
 					</form>
 				</td>
 				<td>
-					<form method="post" action="change-pageUR.do">
-						<input type="hidden" id="id_role" name="id_role"
-							value="${role.id_role}"> <input type="submit"
-							value="Update">
+					<form method="post" action="change-page.do">
+						<input type="hidden" id="id_role" name="id_role" value="${role.id_role}">
+						<input type="submit"value="Update">
+						<input type= "hidden" id="changePage" name=changePage value="updateRole">
 					</form>
 				</td>
 			</tr>

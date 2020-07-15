@@ -70,22 +70,24 @@ table {
 				<td>${loan.state}</td>
 				<td>
 					<form method="post" action="delete-loan.do">
-						<input type="hidden" id="id_loan" name="id_loan"
-							value="${loan.id_loan}"> <input type="hidden"
-							id="id_user" name="id_user" value="${loan.id_user}"> <input
-							type="submit" value="Delete Loan">
+						<input type="hidden" id="id_loan" name="id_loan" value="${loan.id_loan}"> 
+						<input type="hidden" id="id_user" name="id_user" value="${loan.id_user}"> 
+						<input type="hidden" id="id_book" name="id_book" value="${loan.id_book }">
+						
+						<input type="submit" value="Delete Loan">
 					</form>
 				</td>
 				<td>
-					<form method="post" action="change-pageUL.do">
-						<input type="hidden" id="id_loan" name="id_loan"
-							value="${loan.id_loan}"> <input type="submit"
-							value="Update State">
+					<form method="post" action="change-page.do">
+						<input type="hidden" id="id_loan" name="id_loan" value="${loan.id_loan}"> 
+						<input type="submit" value="Update State">
+						<input type= "hidden" id="changePage" name=changePage value="updateLoan">
 					</form>
 				</td>
 				<td>
-					<form method="post" action="change-pageSR.do">
+					<form method="post" action="change-page.do">
 						<input type="submit" value="Send remind">
+						<input type= "hidden" id="changePage" name=changePage value="sendRemind">
 					</form>
 				</td>
 			</tr>

@@ -55,8 +55,9 @@ table {
 	<table class="center">
 		<tr>
 			<td>
-				<form method="post" action="change-pageCU.do">
+				<form method="post" action="change-page.do">
 					<input type="submit" value="Create User">
+					<input type= "hidden" id="changePage" name=changePage value="createUser">
 				</form>
 			</td>
 			<td>
@@ -65,8 +66,9 @@ table {
 				</form>
 			</td>
 			<td>
-				<form method="post" action="back-home.do">
+				<form method="post" action="change-page.do">
 					<input type="submit" value="Exit">
+					<input type= "hidden" id="changePage" name=changePage value="backHome">
 				</form>
 			</td>
 		</tr>
@@ -97,17 +99,18 @@ table {
 				</td>
 
 				<td>
-					<form method="post" action="change-pageUU.do">
+					<form method="post" action="change-page.do">
 						<input type="hidden" id="id_user" name="id_user"
 							value="${user.id_user}"> <input type="submit"
 							value="Update">
+							<input type= "hidden" id="changePage" name=changePage value="updateUser">
 					</form>
 				</td>
 				<td>
 					<form method="post" action="change-pageCR.do">
-						<input type="hidden" id="id_user" name="id_user"
-							value="${user.id_user}"> <input type="submit"
-							value="Create Role">
+						<input type="hidden" id="id_user" name="id_user" value="${user.id_user}"> 
+							<input type="submit" value="Create Role">
+							<input type= "hidden" id="changePage" name=changePage value="createRole">
 					</form>
 				</td>
 			</tr>

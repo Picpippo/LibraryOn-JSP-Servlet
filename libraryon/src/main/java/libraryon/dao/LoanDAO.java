@@ -28,8 +28,8 @@ public class LoanDAO {
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setLong(1, id_book);
-			ps.setLong(2, loanForm.getId_user());
+			ps.setLong(1, loanForm.getId_user());
+			ps.setLong(2, id_book);
 			ps.setString(3, loanForm.getAssignment_date());
 			ps.setString(4, loanForm.getExpiration_date());
 			ps.setString(5, loanForm.getState());

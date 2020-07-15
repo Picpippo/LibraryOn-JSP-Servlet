@@ -29,29 +29,24 @@ import libraryon.model.User;
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	List<User> ul = new ArrayList();
+	List<User> userList = new ArrayList();
 	List<Book> bookList = new ArrayList();
 	Loan loan;
 	UserForm uf;
 	BookForm bf;
-	Long id_book;
-	Long id_loan;
-	Long id_user;
-	Long id_role;
+	Long id;
 	int nLoan = 0;
 	User us = new User();
 	Book bk = new Book();
-
+	String page = "";
+	
 	public LibraryServlet() {
 		super();
 	}
 
-	String page = "";
-
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		page = "";
 
 		String path = request.getServletPath();
@@ -59,19 +54,19 @@ public class LibraryServlet extends HttpServlet {
 
 		switch (comand) {
 		case "create-loan":
-			createLoan(request, id_book, bookList, ul);
+			createLoan(request, id, bookList, userList);
 			break;
 
 		case "create-role":
-			createRole(request, id_user);
+			createRole(request, id);
 			break;
 
 		case "update-role":
-			updateRole(request, id_role);
+			updateRole(request, id);
 			break;
 
 		case "update-loan":
-			updateLoan(request, id_loan);
+			updateLoan(request, id);
 			break;
 
 		case "login":
@@ -87,11 +82,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-user":
-			updateUser(request, id_user);
-			break;
-
-		case "change-pageLOAN":
-			id_book = changePageLOAN(request);
+			updateUser(request, id);
 			break;
 
 		case "create-book":
@@ -103,7 +94,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "delete-loan":
-			deleteLoan(request, ul, bookList, id_book);
+			deleteLoan(request, userList, bookList, id);
 			break;
 
 		case "delete-role":
@@ -111,7 +102,7 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "update-book":
-			updateBook(request, id_book);
+			updateBook(request, id);
 			break;
 
 		case "show-books":
@@ -127,51 +118,11 @@ public class LibraryServlet extends HttpServlet {
 			break;
 
 		case "show-users":
-			ul = showUsers(request);
+			userList = showUsers(request);
 			break;
 
-		case "change-pageCB":
-			changePageCB(request);
-			break;
-
-		case "change-pageCU":
-			changePageCU(request);
-			break;
-
-		case "change-pageUB":
-			id_book = changePageUB(request, bookList);
-			break;
-
-		case "change-pageUU":
-			id_user = changePageUU(request, ul);
-			break;
-
-		case "change-pageLL":
-			changePageLL(request);
-			break;
-
-		case "change-pageUL":
-			id_loan = changePageUL(request);
-			break;
-
-		case "change-pageCR":
-			id_user = changePageCR(request);
-			break;
-
-		case "change-pageUR":
-			id_role = changePageUR(request);
-			break;
-
-		case "change-pageRem":
-			changePageRem(request);
-			break;
-
-		case "change-pageSR":
-			changePageSR(request);
-			break;
-
-		case "back-home":
-			backHome(request);
+		case "change-page":
+			id = changePage(request);
 			break;
 		}
 
@@ -327,10 +278,9 @@ public class LibraryServlet extends HttpServlet {
 				System.out.println(e.getMessage());
 			}
 		}
-
-		System.out.println(nLoan);
-		System.out.println(us.getnLoan());
-
+		
+		bk.setQuantity(bk.getQuantity()-1);
+		
 		loanForm.setAssignment_date(request.getParameter("assignment_date"));
 		loanForm.setExpiration_date(request.getParameter("expiration_date"));
 		loanForm.setState(request.getParameter("state"));
@@ -339,7 +289,7 @@ public class LibraryServlet extends HttpServlet {
 
 			if (us.getnLoan() < 5) {
 				LoanDAO.createLoan(loanForm, id_book);
-				quantityMinus(request, listBook, id_book);
+				updateQuantity(request, bk, id_book);
 				page = "employee";
 			} else {
 				System.out.println("limit of loans reached");
@@ -425,13 +375,28 @@ public class LibraryServlet extends HttpServlet {
 	 * @param request
 	 */
 	private void deleteLoan(HttpServletRequest request, List<User> listUser, List<Book> listBook, Long id_book) {
-
+		id_book = Long.parseLong(request.getParameter("id_book"));
+		System.out.println(id_book);
 		Long id_loan = Long.parseLong(request.getParameter("id_loan"));
 		Long indexId;
 		int id_user = 0;
 		indexId = Long.parseLong(request.getParameter("id_user"));
 		id_user = Integer.parseInt(request.getParameter("id_user"));
-
+		int result = 0;
+		int index = 0;
+		Long prova;
+		
+		for (Book book : bookList) {
+			prova = book.getId_book();
+			result = prova.compareTo(id_book);
+			if (result == 0) {
+				bk = bookList.get(index);
+			} else {
+				index++;
+			}
+		}
+		System.out.println(bk.getTitle());
+		
 		for (User user : listUser) {
 			if (user.getId_user() == indexId) {
 				us = listUser.get(id_user);
@@ -439,6 +404,7 @@ public class LibraryServlet extends HttpServlet {
 				indexId++;
 			}
 		}
+		
 		if (us.getnLoan() != 0) {
 			nLoan = us.getnLoan();
 			nLoan--;
@@ -457,7 +423,9 @@ public class LibraryServlet extends HttpServlet {
 				System.out.println(e.getMessage());
 			}
 		}
-
+		
+		bk.setQuantity(bk.getQuantity()+1);
+		
 		try {
 			LoanDAO.deleteLoan(id_loan);
 			page = "listLoan";
@@ -467,7 +435,7 @@ public class LibraryServlet extends HttpServlet {
 		}
 
 		try {
-			quantityPlus(request, listBook, id_book);
+			updateQuantity(request, bk, id_book);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -687,96 +655,114 @@ public class LibraryServlet extends HttpServlet {
 		page = "listRole";
 		return roleList;
 	}
-
-	/**
-	 * method that sends us to the page "createBook"
-	 * 
-	 * @param request
-	 */
-	private void changePageCB(HttpServletRequest request) {
-		page = "createBook";
-	}
-
-	/**
-	 * method that sends us to the page "createUser"
-	 * 
-	 * @param request
-	 */
-	private void changePageCU(HttpServletRequest request) {
-		page = "createUser";
-	}
-
-	/**
-	 * method that sends us to the page "updateBook" with the id of the book
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Long changePageUB(HttpServletRequest request, List<Book> bookList) {
-		Long id_book = Long.parseLong(request.getParameter("id_book"));
-
+	
+	private Long changePage(HttpServletRequest request) {
+		String comand = request.getParameter("changePage");
+		Long id = null;
 		int result = 0;
 		int index = 0;
 		Long prova;
-
-		for (Book book : bookList) {
-			prova = book.getId_book();
-			result = prova.compareTo(id_book);
-			if (result == 0) {
-				bk = bookList.get(index);
-			} else {
-				index++;
+		
+		switch (comand) {
+		case "updateBook":
+			id = Long.parseLong(request.getParameter("id_book"));
+			
+			for (Book book : bookList) {
+				prova = book.getId_book();
+				result = prova.compareTo(id);
+				if (result == 0) {
+					bk = bookList.get(index);
+				} else {
+					index++;
+				}
 			}
-		}
 
-		BookForm bf = new BookForm();
-		bf.setId_book(bk.getId_book());
-		bf.setTitle(bk.getTitle());
-		bf.setAuthor(bk.getAuthor());
-		bf.setQuantity(bk.getQuantity());
-		bf.setEditor(bk.getEditor());
-		bf.setPosition(bk.getPosition());
+			BookForm bf = new BookForm();
+			bf.setId_book(bk.getId_book());
+			bf.setTitle(bk.getTitle());
+			bf.setAuthor(bk.getAuthor());
+			bf.setQuantity(bk.getQuantity());
+			bf.setEditor(bk.getEditor());
+			bf.setPosition(bk.getPosition());
 
-		setAttributeBf(request, bf);
+			setAttributeBf(request, bf);
+			page = "updateBook";
+			break;
 
-		page = "updateBook";
-		return id_book;
-	}
+		case "createBook":
+			page = "createBook";
+			break;
 
-	/**
-	 * method that sends us to the page "updateUser" with the id of the user
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Long changePageUU(HttpServletRequest request, List<User> listUser) {
-		int result = 0;
-		Long id_user = Long.parseLong(request.getParameter("id_user"));
-		int index = 0;
-		Long prova;
+		case "loanList":
+			page = "listLoan";
+			showLoan(request);
+			break;
 
-		for (User user : listUser) {
-			prova = user.getId_user();
-			result = prova.compareTo(id_user);
-			if (result == 0) {
-				us = listUser.get(index);
-			} else {
-				index++;
+		case "createLoan":
+			id = Long.parseLong(request.getParameter("id_book"));
+			page = "loan";
+			break;
+
+		case "createUser":
+			page = "createUser";
+			break;
+
+		case "updateUser":
+			id = Long.parseLong(request.getParameter("id_user"));
+			result = 0;
+			index = 0;
+
+			for (User user : userList) {
+				prova = user.getId_user();
+				result = prova.compareTo(id);
+				if (result == 0) {
+					us = userList.get(index);
+				} else {
+					index++;
+				}
 			}
+
+			UserForm uf = new UserForm();
+			uf.setId_user(us.getId_user());
+			uf.setName(us.getName());
+			uf.setSurname(us.getSurname());
+			uf.setAddress(us.getAddress());
+			uf.setEmail(us.getEmail());
+			uf.setPassword(us.getPassword());
+
+			setAttributeUf(request, uf);
+			
+			page = "updateUser";
+			break;
+
+		case "createRole":
+			id = Long.parseLong(request.getParameter("id_user"));
+			page = "createRole";
+			break;
+
+		case "reminder":
+			page = "remindSent";
+			break;
+
+		case "sendRemind":
+			page = "remind";
+			break;
+
+		case "updateLoan":
+			id = Long.parseLong(request.getParameter("id_loan"));
+			page = "updateLoan";
+			break;
+
+		case "updateRole":
+			id = Long.parseLong(request.getParameter("id_role"));
+			page = "updateRole";
+			break;
+			
+		case "backHome":
+			page = "login";
+			break;
 		}
-
-		UserForm uf = new UserForm();
-		uf.setId_user(us.getId_user());
-		uf.setName(us.getName());
-		uf.setSurname(us.getSurname());
-		uf.setAddress(us.getAddress());
-		uf.setEmail(us.getEmail());
-		uf.setPassword(us.getPassword());
-
-		setAttributeUf(request, uf);
-
-		page = "updateUser";
-		return id_user;
+		return id;
 	}
 
 	/**
@@ -808,18 +794,6 @@ public class LibraryServlet extends HttpServlet {
 	}
 
 	/**
-	 * method that sends us to the page "loan" with the id of the book
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Long changePageLOAN(HttpServletRequest request) {
-		Long id_book = Long.parseLong(request.getParameter("id_book"));
-		page = "loan";
-		return id_book;
-	}
-
-	/**
 	 * method that decreases the quantity field when a loan is created
 	 * 
 	 * @param request
@@ -827,104 +801,14 @@ public class LibraryServlet extends HttpServlet {
 	 * @param id_book,  the id of the book that we want decreases
 	 * @throws Exception
 	 */
-	private void quantityMinus(HttpServletRequest request, List<Book> bookList, Long id_book) throws Exception {
-
-		Book book = new Book();
-		book = bookList.get(Math.toIntExact(id_book) - 1);
+	private void updateQuantity(HttpServletRequest request, Book book, Long id_book) throws Exception {
 		BookDAO bookDAO = new BookDAO();
 
 		try {
-			bookDAO.quantityMinus(book, id_book);
+			bookDAO.updateQuantity(book, id_book);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	/**
-	 * method that increment the quantity field when a loan is deleted
-	 * 
-	 * @param request
-	 * @param bookList, the list where the book is located
-	 * @param id_book,  the id of the book that we want increment
-	 * @throws Exception
-	 */
-	private void quantityPlus(HttpServletRequest request, List<Book> bookList, Long id_book) throws Exception {
-
-		Book book = new Book();
-		book = bookList.get(Math.toIntExact(id_book) - 1);
-		BookDAO bookDAO = new BookDAO();
-
-		try {
-			bookDAO.quantityPlus(book, id_book);
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
-	 * method that sends us to the page "listLoan"
-	 * 
-	 * @param request
-	 */
-	private void changePageLL(HttpServletRequest request) {
-		page = "listLoan";
-		showLoan(request);
-	}
-
-	/**
-	 * method that sends us to the page "updateLoan" with the id of the loan
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Long changePageUL(HttpServletRequest request) {
-		Long id_loan = Long.parseLong(request.getParameter("id_loan"));
-		page = "updateLoan";
-		return id_loan;
-	}
-
-	/**
-	 * method that sends us to the page "createRole" with the id of the user
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Long changePageCR(HttpServletRequest request) {
-		Long id_user = Long.parseLong(request.getParameter("id_user"));
-		page = "createRole";
-		return id_user;
-	}
-
-	/**
-	 * 
-	 * method that sends us to the page "updateRole" with the id of the role
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Long changePageUR(HttpServletRequest request) {
-		Long id_role = Long.parseLong(request.getParameter("id_role"));
-		page = "updateRole";
-		return id_role;
-	}
-
-	private void changePageRem(HttpServletRequest request) {
-		page = "remindSent";
-	}
-
-	private void changePageSR(HttpServletRequest request) {
-		page = "remind";
-	}
-
-	/**
-	 * method that sends us to the home
-	 * 
-	 * @param request
-	 */
-	private void backHome(HttpServletRequest request) {
-		page = "login";
-	}
-
 }
